@@ -26,6 +26,15 @@ namespace yugiohLocalDatabase {
                         Console.Clear();
                         mainMenu.Display();
                         break;
+                    case System.ConsoleKey.Enter:
+                        switch(mainMenu.index) {
+                            case 4:
+                                Console.Clear();
+                                Console.WriteLine("Goodbye!");
+                                quit = true;
+                            break;
+                        }
+                        break;
                 }
             }
         }
