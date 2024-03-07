@@ -1,0 +1,14 @@
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.GeneratedMSBuildEditorConfig.editorconfig
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.AssemblyInfoInputs.cache
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.AssemblyInfo.cs
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.csproj.CoreCompileInputs.cache
+/home/notsito/documents/yugiohLocalDatabase/bin/Debug/net8.0/yugiohLocalDatabase
+/home/notsito/documents/yugiohLocalDatabase/bin/Debug/net8.0/yugiohLocalDatabase.deps.json
+/home/notsito/documents/yugiohLocalDatabase/bin/Debug/net8.0/yugiohLocalDatabase.runtimeconfig.json
+/home/notsito/documents/yugiohLocalDatabase/bin/Debug/net8.0/yugiohLocalDatabase.dll
+/home/notsito/documents/yugiohLocalDatabase/bin/Debug/net8.0/yugiohLocalDatabase.pdb
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.dll
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/refint/yugiohLocalDatabase.dll
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.pdb
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.genruntimeconfig.cache
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/ref/yugiohLocalDatabase.dll

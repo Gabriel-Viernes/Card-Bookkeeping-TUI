@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "yugiohLocalDatabase/1.0.0": {
+        "runtime": {
+          "yugiohLocalDatabase.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "yugiohLocalDatabase/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
