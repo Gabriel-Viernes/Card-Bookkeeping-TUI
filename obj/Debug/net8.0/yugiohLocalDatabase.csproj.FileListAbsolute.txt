@@ -12,3 +12,4 @@
 /home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.pdb
 /home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.genruntimeconfig.cache
 /home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/ref/yugiohLocalDatabase.dll
+/home/notsito/documents/yugiohLocalDatabase/obj/Debug/net8.0/yugiohLocalDatabase.sourcelink.json
