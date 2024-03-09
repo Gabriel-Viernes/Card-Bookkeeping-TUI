@@ -1,10 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace yugiohLocalDatabase {
     class Entry {
         static void Main(string[] args) {
+
             Console.Clear();
             bool quit = false;
             string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
@@ -28,6 +30,13 @@ namespace yugiohLocalDatabase {
                         break;
                     case System.ConsoleKey.Enter:
                         switch(mainMenu.index) {
+                            case 0:
+                                Console.Clear();
+                                Console.WriteLine("Please enter the name of the card you wish to add");
+                                string input = Console.ReadLine();
+                                input = input.Replace(" ","%20");
+                                Console.WriteLine(input);
+                                break;
                             case 4:
                                 Console.Clear();
                                 Console.WriteLine("Goodbye!");
@@ -62,5 +71,19 @@ namespace yugiohLocalDatabase {
             return;
         }       
 
+    }
+
+    public class Http {
+        using HttpClient client = new();
+        client.DefaultRequestHeaders.Accept.Clear();
+        client.DefaultRequestHeaders.Accept.Add(
+                new 
+                )
+        
+
+    }
+
+    public class Util {
+        
     }
 }
