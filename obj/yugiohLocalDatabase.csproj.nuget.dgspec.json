@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj": {}
+    "/home/notsito/documents/yugioh-local-database/yugiohLocalDatabase.csproj": {}
   },
   "projects": {
-    "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj": {
+    "/home/notsito/documents/yugioh-local-database/yugiohLocalDatabase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj",
+        "projectUniqueName": "/home/notsito/documents/yugioh-local-database/yugiohLocalDatabase.csproj",
         "projectName": "yugiohLocalDatabase",
-        "projectPath": "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj",
+        "projectPath": "/home/notsito/documents/yugioh-local-database/yugiohLocalDatabase.csproj",
         "packagesPath": "/home/notsito/.nuget/packages/",
-        "outputPath": "/home/notsito/documents/yugiohLocalDatabase/obj/",
+        "outputPath": "/home/notsito/documents/yugioh-local-database/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/notsito/.nuget/NuGet/NuGet.Config"

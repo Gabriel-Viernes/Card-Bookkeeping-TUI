@@ -73,13 +73,21 @@ namespace yugiohLocalDatabase {
 
     }
 
-    public class Http {
+    public class CardLookup {
+        public string card;
+        public CardLookup(string input) {
+            card = input;
+
+        }
         using HttpClient client = new();
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(
-                new 
-                )
-        
+                new MediaTypeWithQualityHeaderValue("application/json"));
+        static async Task GetCard(HttpClient client) {
+            card = card.Replace(" ","%20");
+            var json = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.pgp?name={card}");
+            Console.WriteLine(json);
+        }
 
     }
 

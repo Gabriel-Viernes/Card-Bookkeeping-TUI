@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zNkq3YL7kkVi1dtBZ3bqbIw4k5+TCVfbDABszajtH7H5SIFapRF6L888db004PWVUWbwIgIbr0S3K/aVpXbpyw==",
+  "dgSpecHash": "NYS/1vpHMHkwC9cIR0RuL0KzIQtArBPZMwJBcNWa1GZGE7GZiKwWBx4+6hzyFy74ixTq4B+qCMbovoEykZLkiQ==",
   "success": true,
-  "projectFilePath": "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj",
+  "projectFilePath": "/home/notsito/documents/yugioh-local-database/yugiohLocalDatabase.csproj",
   "expectedPackageFiles": [
     "/home/notsito/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.2/microsoft.aspnetcore.app.ref.8.0.2.nupkg.sha512"
   ],
