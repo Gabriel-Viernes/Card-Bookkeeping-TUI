@@ -36,9 +36,9 @@ namespace yugiohLocalDatabase {
                                 string input = Console.ReadLine();
                                 input = input.Replace(" ","%20");
                                 CardLookup findCard = new CardLookup(input, client);
-                                var foundCard = findCard.GetCard();
-                                Console.WriteLine(foundCard);
-                                Console.WriteLine(input);
+                                findCard.GetCard();
+                                Console.WriteLine(findCard.data);
+
 
                                 break;
                             case 4:
@@ -78,11 +78,13 @@ namespace yugiohLocalDatabase {
     }
 
     public class CardLookup {
-        public static string card;
-        public static HttpClient client;
+        public string card;
+        public HttpClient client;
+        public CardDataSkeleton data;
         public CardLookup(string input, HttpClient inputClient) {
             card = input;
             client = inputClient;
+            data = null;
         }
         public async Task GetCard() {
             Console.WriteLine(client);
@@ -96,6 +98,7 @@ namespace yugiohLocalDatabase {
                 var restringified = JsonSerializer.Serialize(unformatted.data[0]);
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 Console.WriteLine(newCard);
+                data = newCard;
             } catch(Exception e) {
                 Console.WriteLine(e);
                 Console.WriteLine(e.GetType().GetProperties());
