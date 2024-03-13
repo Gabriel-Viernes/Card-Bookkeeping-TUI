@@ -3,15 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
-
 namespace yugiohLocalDatabase {
     class Entry {
         static void Main(string[] args) {
-
             Console.Clear();
             using HttpClient client = new();
-            CardLookup test = new CardLookup("Koitsu", client);;
-            test.GetCard();
             bool quit = false;
             string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
             Menu mainMenu = new Menu(mainMenuOptions);
@@ -39,7 +35,11 @@ namespace yugiohLocalDatabase {
                                 Console.WriteLine("Please enter the name of the card you wish to add");
                                 string input = Console.ReadLine();
                                 input = input.Replace(" ","%20");
+                                CardLookup findCard = new CardLookup(input, client);
+                                var foundCard = findCard.GetCard();
+                                Console.WriteLine(foundCard);
                                 Console.WriteLine(input);
+
                                 break;
                             case 4:
                                 Console.Clear();
@@ -83,7 +83,6 @@ namespace yugiohLocalDatabase {
         public CardLookup(string input, HttpClient inputClient) {
             card = input;
             client = inputClient;
-
         }
         public async Task GetCard() {
             Console.WriteLine(client);
@@ -93,13 +92,31 @@ namespace yugiohLocalDatabase {
             Console.WriteLine(card);
             try {
                 string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
-                Console.WriteLine(response);
+                CardSkeleton unformatted = JsonSerializer.Deserialize<CardSkeleton>(response);
+                var restringified = JsonSerializer.Serialize(unformatted.data[0]);
+                CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
+                Console.WriteLine(newCard);
             } catch(Exception e) {
                 Console.WriteLine(e);
                 Console.WriteLine(e.GetType().GetProperties());
             }
         }
+    }
+    public class CardSkeleton {
+        public object[] data { get; set; }
+    }
 
+    public record class CardDataSkeleton {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string type { get; set; }
+        public string frameType { get; set; }
+        public string desc { get; set; }
+        public int atk { get; set; }
+        public int def { get; set; }
+        public int level { get; set; }
+        public string race { get; set; }
+        public string attribute { get; set; }
     }
 
     public class Util {
