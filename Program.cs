@@ -2,12 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace yugiohLocalDatabase {
     class Entry {
         static void Main(string[] args) {
 
             Console.Clear();
+            using HttpClient client = new();
+            CardLookup test = new CardLookup("Koitsu", client);;
+            test.GetCard();
             bool quit = false;
             string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
             Menu mainMenu = new Menu(mainMenuOptions);
@@ -74,19 +78,26 @@ namespace yugiohLocalDatabase {
     }
 
     public class CardLookup {
-        public string card;
-        public CardLookup(string input) {
+        public static string card;
+        public static HttpClient client;
+        public CardLookup(string input, HttpClient inputClient) {
             card = input;
+            client = inputClient;
 
         }
-        using HttpClient client = new();
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        static async Task GetCard(HttpClient client) {
+        public async Task GetCard() {
+            Console.WriteLine(client);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             card = card.Replace(" ","%20");
-            var json = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.pgp?name={card}");
-            Console.WriteLine(json);
+            Console.WriteLine(card);
+            try {
+                string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
+                Console.WriteLine(response);
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                Console.WriteLine(e.GetType().GetProperties());
+            }
         }
 
     }
