@@ -3,12 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Connection;
-namespace yugiohLocalDatabase {
+using Utils;
+using MySql.Data.MySqlClient;
+namespace YugiohLocalDatabase {
     class Entry {
         static void Main(string[] args) {
             Console.Clear();
-            OpenConnection.Open();
+            string putThisInAConfigRetard = "server=localhost;userid=notsito;password=minifigure1-is-king";
+            //TODO: lrn to use configs
+            MySqlConnection sqlConnection = new MySqlConnection(putThisInAConfigRetard);
+            Console.WriteLine("Connecting to MySQL server...");
+            try {
+                sqlConnection.Open();
+            } catch(Exception e) {
+                Console.WriteLine(e);
+            }
+            Console.WriteLine("Success!");
+            Console.WriteLine("Initializing Master Command");
+            MySqlCommand masterCommand = new MySqlCommand("", sqlConnection);
+            SqlOperations.DatabaseCheck(masterCommand);
             using HttpClient client = new();
             bool quit = false;
             string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
@@ -38,10 +51,10 @@ namespace yugiohLocalDatabase {
                                 string input = Console.ReadLine();
                                 input = input.Replace(" ","%20");
                                 CardLookup findCard = new CardLookup(input, client);
-                                findCard.GetCard();
-                                Console.WriteLine(findCard.data);
-
-
+                                findCard.GetCard().ContinueWith((data) => {
+                                    Console.WriteLine(findCard.data.id);
+                                    SqlOperations.InsertCard(masterCommand, findCard.data);                               
+                                });
                                 break;
                             case 4:
                                 Console.Clear();
@@ -86,24 +99,22 @@ namespace yugiohLocalDatabase {
         public CardLookup(string input, HttpClient inputClient) {
             card = input;
             client = inputClient;
-            data = null;
+            data = new CardDataSkeleton();
         }
         public async Task GetCard() {
-            Console.WriteLine(client);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             card = card.Replace(" ","%20");
-            Console.WriteLine(card);
             try {
                 string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
                 CardSkeleton unformatted = JsonSerializer.Deserialize<CardSkeleton>(response);
                 var restringified = JsonSerializer.Serialize(unformatted.data[0]);
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
-                Console.WriteLine(newCard);
                 data = newCard;
+                Console.WriteLine(data);
+                Console.WriteLine("hello!!?!?!?" + data.name);
             } catch(Exception e) {
                 Console.WriteLine(e);
-                Console.WriteLine(e.GetType().GetProperties());
             }
         }
     }
@@ -111,20 +122,16 @@ namespace yugiohLocalDatabase {
         public object[] data { get; set; }
     }
 
-    public record class CardDataSkeleton {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string type { get; set; }
-        public string frameType { get; set; }
-        public string desc { get; set; }
-        public int atk { get; set; }
-        public int def { get; set; }
-        public int level { get; set; }
-        public string race { get; set; }
-        public string attribute { get; set; }
-    }
-
-    public class Util {
-        
+    public class CardDataSkeleton {
+        public int? id { get; set; }
+        public string? name { get; set; }
+        public string? type { get; set; }
+        public string? frameType { get; set; }
+        public string? desc { get; set; }
+        public int? atk { get; set; }
+        public int? def { get; set; }
+        public int? level { get; set; }
+        public string? race { get; set; }
+        public string? attribute { get; set; }
     }
 }

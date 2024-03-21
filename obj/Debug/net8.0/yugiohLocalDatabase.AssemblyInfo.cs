@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("yugiohLocalDatabase")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d75a33599dc881cf03a754ef4ba08ab78461a660")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45b9b3d6a06c3c9a24940690046a0d243fe5b41f")]
 [assembly: System.Reflection.AssemblyProductAttribute("yugiohLocalDatabase")]
 [assembly: System.Reflection.AssemblyTitleAttribute("yugiohLocalDatabase")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
