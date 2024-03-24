@@ -1,73 +1,70 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
 using MySql.Data.MySqlClient;
-namespace YugiohLocalDatabase {
-    class Entry {
-        static void Main(string[] args) {
-            Console.Clear();
-            string putThisInAConfigRetard = "server=localhost;userid=notsito;password=minifigure1-is-king";
-            //TODO: lrn to use configs
-            MySqlConnection sqlConnection = new MySqlConnection(putThisInAConfigRetard);
-            Console.WriteLine("Connecting to MySQL server...");
-            try {
-                sqlConnection.Open();
-            } catch(Exception e) {
-                Console.WriteLine(e);
-            }
-            Console.WriteLine("Success!");
-            Console.WriteLine("Initializing Master Command");
-            MySqlCommand masterCommand = new MySqlCommand("", sqlConnection);
-            SqlOperations.DatabaseCheck(masterCommand);
-            using HttpClient client = new();
-            bool quit = false;
-            string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
-            Menu mainMenu = new Menu(mainMenuOptions);
-            mainMenu.Display();
-            while (quit == false) {
-                switch(Console.ReadKey().Key) {
-                    case System.ConsoleKey.UpArrow:
-                        if(mainMenu.index > 0) {
-                            mainMenu.index--;
-                        }
-                        Console.Clear();
-                        mainMenu.Display();
-                        break;
-                    case System.ConsoleKey.DownArrow:
-                        if(mainMenu.index < mainMenu.menuItems.Length-1) {
-                            mainMenu.index++;
-                        }
-                        Console.Clear();
-                        mainMenu.Display();
-                        break;
-                    case System.ConsoleKey.Enter:
-                        switch(mainMenu.index) {
-                            case 0:
-                                Console.Clear();
-                                Console.WriteLine("Please enter the name of the card you wish to add");
-                                string input = Console.ReadLine();
-                                input = input.Replace(" ","%20");
-                                CardLookup findCard = new CardLookup(input, client);
-                                findCard.GetCard().ContinueWith((data) => {
-                                    Console.WriteLine(findCard.data.id);
-                                    SqlOperations.InsertCard(masterCommand, findCard.data);                               
-                                });
-                                break;
-                            case 4:
-                                Console.Clear();
-                                Console.WriteLine("Goodbye!");
-                                quit = true;
+using Microsoft.VisualBasic;
+using YugiohLocalDatabase;
+
+class Entry {
+    static void Main(string[] args) {
+        Console.Clear();
+        string putThisInAConfigRetard = "server=localhost;userid=notsito;password=minifigure1-is-king";
+        //TODO: lrn to use configs
+        MySqlConnection sqlConnection = new MySqlConnection(putThisInAConfigRetard);
+        Console.WriteLine("Connecting to MySQL server...");
+        try {
+            sqlConnection.Open();
+        } catch(Exception e) {
+            Console.WriteLine(e);
+        }
+        Console.WriteLine("Success!");
+        Console.WriteLine("Initializing Master Command");
+        MySqlCommand masterCommand = new MySqlCommand("", sqlConnection);
+        SqlOperations.DatabaseCheck(masterCommand);
+        using HttpClient client = new();
+        bool quit = false;
+        string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        Menu mainMenu = new Menu(mainMenuOptions);
+        mainMenu.Display();
+        //menu code begins here
+        while (quit == false) {
+            switch(Console.ReadKey().Key) {
+                case System.ConsoleKey.UpArrow:
+                    if(mainMenu.index > 0) {
+                        mainMenu.index--;
+                    }
+                    Console.Clear();
+                    mainMenu.Display();
+                    break;
+                case System.ConsoleKey.DownArrow:
+                    if(mainMenu.index < mainMenu.menuItems.Length-1) {
+                        mainMenu.index++;
+                    }
+                    Console.Clear();
+                    mainMenu.Display();
+                    break;
+                case System.ConsoleKey.Enter:
+                    switch(mainMenu.index) {
+                        case 0:
+                            Menu.AddCardMenu(client, masterCommand);
                             break;
-                        }
+                        case 4:
+                            Console.Clear();
+                            Console.WriteLine("Goodbye!");
+                            quit = true;
                         break;
-                }
+                    }
+                    break;
             }
         }
     }
+}
 
+namespace YugiohLocalDatabase {
     public class Menu {
         public int index;
         public string[] menuItems;
@@ -89,19 +86,30 @@ namespace YugiohLocalDatabase {
             }
             return;
         }       
+        async public static void AddCardMenu(HttpClient client, MySqlCommand masterCommand) {
+            CardLookup findCard = new CardLookup(client);
+            Console.WriteLine("Please enter the name of the card you would like to add");
+            try {
+                await findCard.GetCard(masterCommand);
+            } catch (Exception e) {
+                Console.WriteLine("Card not found, please reenter the card's name");
+                AddCardMenu(client, masterCommand);
+            }
+        }
 
     }
 
     public class CardLookup {
-        public string card;
+        public string? card;
         public HttpClient client;
         public CardDataSkeleton data;
-        public CardLookup(string input, HttpClient inputClient) {
-            card = input;
+        public CardLookup(HttpClient inputClient) {
             client = inputClient;
             data = new CardDataSkeleton();
         }
-        public async Task GetCard() {
+        public async Task GetCard(MySqlCommand masterCommand) {
+            card = Console.ReadLine();
+            card = card.Replace(" ","%20");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             card = card.Replace(" ","%20");
@@ -111,10 +119,17 @@ namespace YugiohLocalDatabase {
                 var restringified = JsonSerializer.Serialize(unformatted.data[0]);
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
-                Console.WriteLine(data);
-                Console.WriteLine("hello!!?!?!?" + data.name);
+                Console.WriteLine("How many copies do you have?");
+                string copies = Console.ReadLine();
+                if(Information.IsNumeric(copies) == true) {
+                    int converted = Convert.ToInt32(copies);
+                    data.copies = converted;
+                    Console.WriteLine($"{data.copies} || {copies}");
+                }
+                SqlOperations.InsertCard(masterCommand, data);                               
             } catch(Exception e) {
                 Console.WriteLine(e);
+                throw e;
             }
         }
     }
@@ -133,5 +148,6 @@ namespace YugiohLocalDatabase {
         public int? level { get; set; }
         public string? race { get; set; }
         public string? attribute { get; set; }
+        public int? copies { get; set; }
     }
 }

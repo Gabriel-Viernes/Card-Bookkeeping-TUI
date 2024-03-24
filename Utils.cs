@@ -36,10 +36,9 @@ namespace Utils {
                 }
         }
         public static void InsertCard(MySqlCommand masterCommand,CardDataSkeleton input) {
-            Console.WriteLine(input.id);
             masterCommand.CommandText = @"
-                INSERT INTO cards (card_id, name, type, frameType, description, atk, def, level, race, attribute)
-                VALUES (@card_id, @name, @type, @frameType, @description, @atk, @def, @level, @race, @attribute);";
+                INSERT INTO cards (card_id, name, type, frameType, description, atk, def, level, race, attribute, copies)
+                VALUES (@card_id, @name, @type, @frameType, @description, @atk, @def, @level, @race, @attribute, @copies);";
             masterCommand.Parameters.AddWithValue("@card_id", input.id);
             masterCommand.Parameters.AddWithValue("@name", input.name);
             masterCommand.Parameters.AddWithValue("@type", input.type);
@@ -50,7 +49,7 @@ namespace Utils {
             masterCommand.Parameters.AddWithValue("@level", input.level);
             masterCommand.Parameters.AddWithValue("@race", input.race);
             masterCommand.Parameters.AddWithValue("@attribute", input.attribute);
-            Console.WriteLine(masterCommand.Parameters.Count);
+            masterCommand.Parameters.AddWithValue("@copies", input.copies);
             using (MySqlDataReader masterCommandReader = masterCommand.ExecuteReader()) {
                 while(masterCommandReader.Read()) {
                     Console.WriteLine("Inserting cards...");
