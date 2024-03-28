@@ -49,6 +49,9 @@ class Entry {
                         case 0:
                             Menu.AddCardMenu(client, masterCommand);
                             break;
+                        case 1:
+                            Menu.FindCardMenu(masterCommand);
+                            break;
                         case 4:
                             Console.Clear();
                             Console.WriteLine("Goodbye!");
@@ -92,6 +95,11 @@ namespace YugiohLocalDatabase {
                 Console.WriteLine("Card not found, please reenter the card's name. Enter an extra character before reentering the card's name");
                 AddCardMenu(client, masterCommand);
             }
+        }
+        async public static void FindCardMenu(MySqlCommand masterCommand) {
+            Console.WriteLine("Card Name?");
+            string input = Console.ReadLine();
+            SqlOperations.FindExistingCard(masterCommand, input);
         }
 
     }

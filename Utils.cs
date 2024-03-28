@@ -20,7 +20,7 @@ namespace Utils {
                         name varchar(255),
                         type varchar(255),
                         frametype varchar(255),
-                        description varchar(255),
+                        description text(65535),
                         atk int,
                         def int,
                         level int,
@@ -48,6 +48,20 @@ namespace Utils {
                 }
             }
             return false;
+        }
+        public static CardDataSkeleton FindExistingCard(MySqlCommand masterCommand, string input) {
+            masterCommand.Parameters.Clear();
+            masterCommand.CommandText = @"SELECT * FROM cards WHERE name = @name;";
+            Console.WriteLine("Checking for existing card...");
+            masterCommand.Parameters.AddWithValue("@name", input);
+            CardDataSkeleton data = new CardDataSkeleton();
+            using (MySqlDataReader masterCommandReader = masterCommand.ExecuteReader()) {
+                while (masterCommandReader.Read()) {
+                    Console.WriteLine(masterCommandReader.GetString("name"));
+                    Console.WriteLine(masterCommandReader.GetString("copies"));
+                }
+            }
+            return data;
         }
         public static void InsertCard(MySqlCommand masterCommand,CardDataSkeleton input) {
             masterCommand.Parameters.Clear();
