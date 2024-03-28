@@ -1,9 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
@@ -31,23 +28,21 @@ class Entry {
         bool quit = false;
         string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
         Menu mainMenu = new Menu(mainMenuOptions);
-        mainMenu.Display();
         //menu code begins here
         while (quit == false) {
+            mainMenu.Display();
             switch(Console.ReadKey().Key) {
                 case System.ConsoleKey.UpArrow:
                     if(mainMenu.index > 0) {
                         mainMenu.index--;
                     }
                     Console.Clear();
-                    mainMenu.Display();
                     break;
                 case System.ConsoleKey.DownArrow:
                     if(mainMenu.index < mainMenu.menuItems.Length-1) {
                         mainMenu.index++;
                     }
                     Console.Clear();
-                    mainMenu.Display();
                     break;
                 case System.ConsoleKey.Enter:
                     switch(mainMenu.index) {
@@ -111,6 +106,10 @@ namespace YugiohLocalDatabase {
         }
         public async Task GetCard(MySqlCommand masterCommand) {
             card = Console.ReadLine();
+            if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
+                Console.WriteLine("Card already exists!");
+                return;
+            }
             Console.WriteLine("How many copies do you have?");
             string copiesRaw = Console.ReadLine();
             int copies = 0;
@@ -124,7 +123,6 @@ namespace YugiohLocalDatabase {
                     copiesRaw = Console.ReadLine();
                 }
             }
-            Console.WriteLine(card);
             card = card.Replace(" ","%20");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -134,7 +132,6 @@ namespace YugiohLocalDatabase {
                 var restringified = JsonSerializer.Serialize(unformatted.data[0]);
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
-                Console.WriteLine($"You are adding {copies} copies of this card");
                 data.copies = copies;
                 SqlOperations.InsertCard(masterCommand, data);                               
             } catch(Exception e) {

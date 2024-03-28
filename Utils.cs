@@ -35,7 +35,22 @@ namespace Utils {
                     }
                 }
         }
+        public static bool CheckForExistingCard(MySqlCommand masterCommand, string input) {
+            masterCommand.Parameters.Clear();
+            masterCommand.CommandText = @"SELECT name FROM cards WHERE name = @name;";
+            Console.WriteLine("Checking for existing card...");
+            masterCommand.Parameters.AddWithValue("@name", input);
+            using (MySqlDataReader masterCommandReader = masterCommand.ExecuteReader()) {
+                while (masterCommandReader.Read()) {
+                    if(masterCommandReader.GetString("name") == $"{input}") {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public static void InsertCard(MySqlCommand masterCommand,CardDataSkeleton input) {
+            masterCommand.Parameters.Clear();
             masterCommand.CommandText = @"
                 INSERT INTO cards (card_id, name, type, frameType, description, atk, def, level, race, attribute, copies)
                 VALUES (@card_id, @name, @type, @frameType, @description, @atk, @def, @level, @race, @attribute, @copies);";
@@ -51,9 +66,7 @@ namespace Utils {
             masterCommand.Parameters.AddWithValue("@attribute", input.attribute);
             masterCommand.Parameters.AddWithValue("@copies", input.copies);
             using (MySqlDataReader masterCommandReader = masterCommand.ExecuteReader()) {
-                while(masterCommandReader.Read()) {
-                    Console.WriteLine("Inserting cards...");
-                }
+                Console.WriteLine("Inserting cards...");
             }
            
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "muYJljxgm7RBmHSmOYkIO8ViZLuqQ6hhkzMWSQGrFeslXBvdaKs+HRqL16H4+3+0pegdiKO5lCX3wQ1naYmmAg==",
+  "dgSpecHash": "lEnJseqaJeKSSIJm8SWQinrRclhx+YORtb4MgBcITfdlEBWk6z5SS3rWHQUBKH+nULs2rT14vMnFUGCDPt5VZA==",
   "success": true,
-  "projectFilePath": "/home/notsito/documents/projects/yugioh-local-database/yugiohLocalDatabase.csproj",
+  "projectFilePath": "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj",
   "expectedPackageFiles": [
     "/home/notsito/.nuget/packages/bouncycastle.cryptography/2.2.1/bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "/home/notsito/.nuget/packages/google.protobuf/3.25.1/google.protobuf.3.25.1.nupkg.sha512",
