@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
@@ -92,7 +94,7 @@ namespace YugiohLocalDatabase {
             try {
                 await findCard.GetCard(masterCommand);
             } catch (Exception e) {
-                Console.WriteLine("Card not found, please reenter the card's name");
+                Console.WriteLine("Card not found, please reenter the card's name. Enter an extra character before reentering the card's name");
                 AddCardMenu(client, masterCommand);
             }
         }
@@ -109,23 +111,31 @@ namespace YugiohLocalDatabase {
         }
         public async Task GetCard(MySqlCommand masterCommand) {
             card = Console.ReadLine();
+            Console.WriteLine("How many copies do you have?");
+            string copiesRaw = Console.ReadLine();
+            int copies = 0;
+            bool validInt = false;
+            while(validInt == false) {
+                if(Information.IsNumeric(copiesRaw) == true) {
+                    copies = Convert.ToInt32(copiesRaw);
+                    break;
+                } else {
+                    Console.WriteLine("Invalid characters detected, please only enter numbers. Enter an extra number before your actual number of copies");
+                    copiesRaw = Console.ReadLine();
+                }
+            }
+            Console.WriteLine(card);
             card = card.Replace(" ","%20");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            card = card.Replace(" ","%20");
             try {
                 string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
                 CardSkeleton unformatted = JsonSerializer.Deserialize<CardSkeleton>(response);
                 var restringified = JsonSerializer.Serialize(unformatted.data[0]);
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
-                Console.WriteLine("How many copies do you have?");
-                string copies = Console.ReadLine();
-                if(Information.IsNumeric(copies) == true) {
-                    int converted = Convert.ToInt32(copies);
-                    data.copies = converted;
-                    Console.WriteLine($"{data.copies} || {copies}");
-                }
+                Console.WriteLine($"You are adding {copies} copies of this card");
+                data.copies = copies;
                 SqlOperations.InsertCard(masterCommand, data);                               
             } catch(Exception e) {
                 Console.WriteLine(e);
