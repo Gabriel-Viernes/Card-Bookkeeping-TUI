@@ -99,7 +99,8 @@ namespace YugiohLocalDatabase {
         async public static void FindCardMenu(MySqlCommand masterCommand) {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
-            SqlOperations.FindExistingCard(masterCommand, input);
+            CardDataSkeleton data = SqlOperations.FindExistingCard(masterCommand, input);
+            Console.WriteLine(data.name);
         }
 
     }

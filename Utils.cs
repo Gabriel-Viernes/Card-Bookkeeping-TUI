@@ -57,10 +57,20 @@ namespace Utils {
             CardDataSkeleton data = new CardDataSkeleton();
             using (MySqlDataReader masterCommandReader = masterCommand.ExecuteReader()) {
                 while (masterCommandReader.Read()) {
-                    Console.WriteLine(masterCommandReader.GetString("name"));
-                    Console.WriteLine(masterCommandReader.GetString("copies"));
+                    data.id = masterCommandReader.GetInt32("card_id");
+                    data.name = masterCommandReader.GetString("name");
+                    data.type = masterCommandReader.GetString("type");
+                    data.frameType = masterCommandReader.GetString("frametype");
+                    data.desc = masterCommandReader.GetString("description");
+                    data.atk = masterCommandReader.GetInt32("atk");
+                    data.def = masterCommandReader.GetInt32("def");
+                    data.level = masterCommandReader.GetInt32("level");
+                    data.race = masterCommandReader.GetString("race");
+                    data.attribute = masterCommandReader.GetString("attribute");
+                    data.copies = masterCommandReader.GetInt32("copies");
                 }
             }
+            Console.WriteLine(data);
             return data;
         }
         public static void InsertCard(MySqlCommand masterCommand,CardDataSkeleton input) {
