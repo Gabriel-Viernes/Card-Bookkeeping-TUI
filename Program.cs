@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using Microsoft.Data.Sqlite;
 using Utils;
 using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic;
