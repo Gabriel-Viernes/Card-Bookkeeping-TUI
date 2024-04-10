@@ -102,7 +102,8 @@ namespace YugiohLocalDatabase {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
             CardDataSkeleton data = SqlOperations.FindExistingCard(masterCommand, input);
-            Console.WriteLine(data.name);
+            Console.WriteLine($"{data.name} :");
+            Console.WriteLine($"You have {data.copies} copies");
         }
 
     }
@@ -130,7 +131,7 @@ namespace YugiohLocalDatabase {
                     copies = Convert.ToInt32(copiesRaw);
                     break;
                 } else {
-                    Console.WriteLine("Invalid characters detected, please only enter numbers. Enter an extra number before your actual number of copies");
+                    Console.WriteLine("Invalid characters detected, please only enter numbers");
                     copiesRaw = Console.ReadLine();
                 }
             }
@@ -144,7 +145,16 @@ namespace YugiohLocalDatabase {
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
                 data.copies = copies;
-                Console.WriteLine(data.name);
+                var properties = from p in typeof(CardDataSkeleton).GetProperties()
+                                    select p;
+                foreach (var property in properties)
+                {
+                    Console.WriteLine(property.GetValue(data));
+                    if(property.GetValue(data) == null) {
+                        Console.WriteLine($"{property} is null");
+                        Console.WriteLine(property.PropertyType);
+                    }
+                }
                 SqlOperations.InsertCard(masterCommand, data);                               
             } catch(Exception e) {
                 Console.WriteLine(e);
