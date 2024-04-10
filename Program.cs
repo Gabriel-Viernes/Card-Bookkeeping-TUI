@@ -7,22 +7,24 @@ using Utils;
 using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic;
 using YugiohLocalDatabase;
+using Microsoft.Data.Sqlite;
 
 class Entry {
     static void Main(string[] args) {
         Console.Clear();
-        string putThisInAConfigRetard = "server=localhost;userid=notsito;password=minifigure1-is-king";
+        string putThisInAConfigRetard = "Data Source=yugioh.db";
         //TODO: lrn to use configs
-        MySqlConnection sqlConnection = new MySqlConnection(putThisInAConfigRetard);
-        Console.WriteLine("Connecting to MySQL server...");
+        SqliteConnection connection = new SqliteConnection(putThisInAConfigRetard);
+        Console.WriteLine("Connecting to data server...");
         try {
-            sqlConnection.Open();
+            connection.Open();
         } catch(Exception e) {
             Console.WriteLine(e);
         }
         Console.WriteLine("Success!");
         Console.WriteLine("Initializing Master Command");
-        MySqlCommand masterCommand = new MySqlCommand("", sqlConnection);
+        var masterCommand = connection.CreateCommand();
+        Console.WriteLine(masterCommand);
         SqlOperations.DatabaseCheck(masterCommand);
         using HttpClient client = new();
         bool quit = false;
@@ -86,7 +88,7 @@ namespace YugiohLocalDatabase {
             }
             return;
         }       
-        async public static void AddCardMenu(HttpClient client, MySqlCommand masterCommand) {
+        async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
             CardLookup findCard = new CardLookup(client);
             Console.WriteLine("Please enter the name of the card you would like to add");
             try {
@@ -96,7 +98,7 @@ namespace YugiohLocalDatabase {
                 AddCardMenu(client, masterCommand);
             }
         }
-        async public static void FindCardMenu(MySqlCommand masterCommand) {
+        async public static void FindCardMenu(SqliteCommand masterCommand) {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
             CardDataSkeleton data = SqlOperations.FindExistingCard(masterCommand, input);
@@ -113,7 +115,7 @@ namespace YugiohLocalDatabase {
             client = inputClient;
             data = new CardDataSkeleton();
         }
-        public async Task GetCard(MySqlCommand masterCommand) {
+        public async Task GetCard(SqliteCommand masterCommand) {
             card = Console.ReadLine();
             if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
                 Console.WriteLine("Card already exists!");
@@ -142,6 +144,7 @@ namespace YugiohLocalDatabase {
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
                 data.copies = copies;
+                Console.WriteLine(data.name);
                 SqlOperations.InsertCard(masterCommand, data);                               
             } catch(Exception e) {
                 Console.WriteLine(e);
