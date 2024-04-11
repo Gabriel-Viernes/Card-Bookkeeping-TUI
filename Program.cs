@@ -94,7 +94,7 @@ namespace YugiohLocalDatabase {
             try {
                 await findCard.GetCard(masterCommand);
             } catch (Exception e) {
-                Console.WriteLine("Card not found, please reenter the card's name. Enter an extra character before reentering the card's name");
+                Console.WriteLine("An error occurred");
                 AddCardMenu(client, masterCommand);
             }
         }
