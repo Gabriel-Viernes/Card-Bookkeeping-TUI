@@ -95,6 +95,7 @@ namespace YugiohLocalDatabase {
                 await findCard.GetCard(masterCommand);
             } catch (Exception e) {
                 Console.WriteLine("An error occurred");
+                Console.WriteLine(e);
                 AddCardMenu(client, masterCommand);
             }
         }
@@ -102,8 +103,7 @@ namespace YugiohLocalDatabase {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
             CardDataSkeleton data = SqlOperations.FindExistingCard(masterCommand, input);
-            Console.WriteLine($"{data.name} :");
-            Console.WriteLine($"You have {data.copies} copies");
+            Console.WriteLine($"{data.name} : {data.copies}");
         }
 
     }

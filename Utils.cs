@@ -38,14 +38,16 @@ namespace Utils {
         }
         public static bool CheckForExistingCard(SqliteCommand masterCommand, string input) {
             masterCommand.Parameters.Clear();
-            masterCommand.CommandText = @"SELECT name FROM cards WHERE name = @name;";
+            masterCommand.CommandText = $"SELECT name FROM cards WHERE name = '{input}';";
             Console.WriteLine("Checking for existing card...");
-            masterCommand.Parameters.Add("@name", SqliteType.Text);
-            masterCommand.Parameters["@name"].Value = input;
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
                 while (masterCommandReader.Read()) {
-                    Console.WriteLine(masterCommandReader.GetString(2));
-                    if(masterCommandReader.GetString(0) == $"{input}") {
+                    Console.WriteLine("reading...");
+                    string test = masterCommandReader.GetString(0);
+                    Console.WriteLine(test);
+                    Console.WriteLine("break");
+                    Console.ReadLine();
+                    if(test == $"{input}") {
                         return true;
                     }
                 }
@@ -54,31 +56,24 @@ namespace Utils {
         }
         public static CardDataSkeleton FindExistingCard(SqliteCommand masterCommand, string input) {
             masterCommand.Parameters.Clear();
-            masterCommand.CommandText = @"SELECT * FROM cards WHERE name = @name;";
+            masterCommand.CommandText = $"SELECT * FROM cards WHERE name = '{input}';";
             Console.WriteLine("Checking for existing card...");
-            masterCommand.Parameters.Add("@name", SqliteType.Text);
-            masterCommand.Parameters["@name"].Value = input;
             CardDataSkeleton data = new CardDataSkeleton();
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
-
                 while (masterCommandReader.Read()) {
-                    Console.WriteLine(masterCommandReader.GetString(2));
-                    //data.id = masterCommandReader.GetInt32(0);
-                    //data.name = masterCommandReader.GetString(1);
-                    //data.type = masterCommandReader.GetString(2);
-                    //data.frameType = masterCommandReader.GetString(3);
-                    //data.desc = masterCommandReader.GetString(4);
-                    //data.atk = masterCommandReader.GetInt32(5);
-                    //data.def = masterCommandReader.GetInt32(6);
-                    //data.level = masterCommandReader.GetInt32(7);
-                    //data.race = masterCommandReader.GetString(8);
-                    //data.attribute = masterCommandReader.GetString(9);
-                    //data.copies = masterCommandReader.GetInt32(10);
+                    data.id = masterCommandReader.GetInt32(0);
+                    data.name = masterCommandReader.GetString(1);
+                    data.type = masterCommandReader.GetString(2);
+                    data.frameType = masterCommandReader.GetString(3);
+                    data.desc = masterCommandReader.GetString(4);
+                    data.atk = masterCommandReader.GetInt32(5);
+                    data.def = masterCommandReader.GetInt32(6);
+                    data.level = masterCommandReader.GetInt32(7);
+                    data.race = masterCommandReader.GetString(8);
+                    data.attribute = masterCommandReader.GetString(9);
+                    data.copies = masterCommandReader.GetInt32(10);
                 }
             }
-            Console.WriteLine(data.id);
-            Console.WriteLine(data.name);
-            Console.WriteLine(data.copies);
             return data;
         }
         public static void InsertCard(SqliteCommand masterCommand,CardDataSkeleton input) {
