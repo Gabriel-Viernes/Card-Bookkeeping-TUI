@@ -52,7 +52,10 @@ class Entry {
                             Menu.AddCardMenu(client, masterCommand);
                             break;
                         case 1:
+                            Console.Clear();
                             Menu.FindCardMenu(masterCommand);
+                            Console.WriteLine("Press any key to continue...");
+                            Console.ReadKey();
                             break;
                         case 4:
                             Console.Clear();
@@ -103,7 +106,23 @@ namespace YugiohLocalDatabase {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
             CardDataSkeleton data = SqlOperations.FindExistingCard(masterCommand, input);
-            Console.WriteLine($"{data.name} : {data.copies}");
+            Console.WriteLine($"You have {data.copies} copies of {data.name}");
+            switch(data.type) {
+                case "Spell Card":
+                    Console.WriteLine($"Type: {data.type}");
+                    Console.WriteLine($"{data.desc}");
+                    break;
+                case "Trap Card":
+                    Console.WriteLine($"Type: {data.type}");
+                    Console.WriteLine($"{data.desc}");
+                    break;
+                default:
+                    Console.WriteLine($"Type: {data.type}");
+                    Console.WriteLine($"|ATK:    |DEF:    |LEVEL:  |");
+                    Console.WriteLine($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
+                    break;
+            }
+            Console.WriteLine($"");
         }
 
     }

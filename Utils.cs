@@ -61,17 +61,17 @@ namespace Utils {
             CardDataSkeleton data = new CardDataSkeleton();
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
                 while (masterCommandReader.Read()) {
-                    data.id = masterCommandReader.GetInt32(0);
-                    data.name = masterCommandReader.GetString(1);
-                    data.type = masterCommandReader.GetString(2);
-                    data.frameType = masterCommandReader.GetString(3);
-                    data.desc = masterCommandReader.GetString(4);
-                    data.atk = masterCommandReader.GetInt32(5);
-                    data.def = masterCommandReader.GetInt32(6);
-                    data.level = masterCommandReader.GetInt32(7);
-                    data.race = masterCommandReader.GetString(8);
-                    data.attribute = masterCommandReader.GetString(9);
-                    data.copies = masterCommandReader.GetInt32(10);
+                    data.id = masterCommandReader.GetInt32(1);
+                    data.name = masterCommandReader.GetString(2);
+                    data.type = masterCommandReader.GetString(3);
+                    data.frameType = masterCommandReader.GetString(4);
+                    data.desc = masterCommandReader.GetString(5);
+                    data.atk = masterCommandReader.GetInt32(6);
+                    data.def = masterCommandReader.GetInt32(7);
+                    data.level = masterCommandReader.GetInt32(8);
+                    data.race = masterCommandReader.GetString(9);
+                    data.attribute = masterCommandReader.GetString(10);
+                    data.copies = masterCommandReader.GetInt32(11);
                 }
             }
             return data;
@@ -122,6 +122,17 @@ namespace Utils {
                 Console.WriteLine("Inserting cards...");
             }
            
+        }
+    }
+    class StringUtils {
+        public static string MakeLengthUniform(int? input) {
+            string output = input.ToString();
+            // |ATK:    |DEF:    |Level:
+            if(output.Length < 8) {
+                string empty = new string (' ', 8 - output.Length);
+                output = empty+output;
+            }
+            return output;
         }
     }
 }
