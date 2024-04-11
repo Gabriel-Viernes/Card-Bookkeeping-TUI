@@ -2,6 +2,8 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using YugiohLocalDatabase;
 using Microsoft.Data.Sqlite;
+using System.Reflection;
+using System.Collections.Generic;
 namespace Utils {
     class SqlOperations {
         public static void DatabaseCheck(SqliteCommand masterCommand) {
@@ -84,34 +86,43 @@ namespace Utils {
             masterCommand.CommandText = @"
                 INSERT INTO cards (card_id, name, type, frameType, description, atk, def, level, race, attribute, copies)
                 VALUES (@card_id, @name, @type, @frameType, @description, @atk, @def, @level, @race, @attribute, @copies);";
-            masterCommand.Parameters.Add("@card_id", SqliteType.Integer);
-            masterCommand.Parameters["@card_id"].Value = input.id;
-            Console.WriteLine(masterCommand.Parameters["@card_id"].Value);
-            masterCommand.Parameters.Add("@name", SqliteType.Text);
-            masterCommand.Parameters["@name"].Value = input.name;
-            Console.WriteLine(masterCommand.Parameters["@name"].Value);
-            masterCommand.Parameters.Add("@type", SqliteType.Text);
-            masterCommand.Parameters["@type"].Value = input.type;
-            Console.WriteLine(masterCommand.Parameters["@type"].Value);
-            masterCommand.Parameters.Add("@frameType", SqliteType.Text);
-            masterCommand.Parameters["@frameType"].Value = input.frameType;
-            Console.WriteLine(masterCommand.Parameters["@frameType"].Value);
-            masterCommand.Parameters.Add("@description", SqliteType.Text);
-            masterCommand.Parameters["@description"].Value = input.desc;
-            Console.WriteLine(masterCommand.Parameters["@description"].Value);
-            masterCommand.Parameters.Add("@atk", SqliteType.Integer);
-            masterCommand.Parameters["@atk"].Value = input.atk;
-            Console.WriteLine(masterCommand.Parameters["@atk"].Value);
-            masterCommand.Parameters.Add("@def", SqliteType.Integer);
-            masterCommand.Parameters["@def"].Value = input.def;
-            masterCommand.Parameters.Add("@level", SqliteType.Integer);
-            masterCommand.Parameters["@level"].Value = input.level;
-            masterCommand.Parameters.Add("@race", SqliteType.Text);
-            masterCommand.Parameters["@race"].Value = input.race;
-            masterCommand.Parameters.Add("@attribute", SqliteType.Text);
-            masterCommand.Parameters["@attribute"].Value = input.attribute;
-            masterCommand.Parameters.Add("@copies", SqliteType.Integer);
-            masterCommand.Parameters["@copies"].Value = input.copies;
+            Dictionary<string, SqliteType> schema = new Dictionary<string, SqliteType>() {
+                {"@card_id", SqliteType.Integer},
+                {"@name", SqliteType.Text},
+                {"@type", SqliteType.Text},
+                {"@frameType", SqliteType.Text},
+                {"@description", SqliteType.Text},
+                {"@atk", SqliteType.Integer},
+                {"@def", SqliteType.Integer},
+                {"@level", SqliteType.Integer},
+                {"@race", SqliteType.Text},
+                {"@attribute", SqliteType.Text},
+                {"@copies", SqliteType.Integer}
+            };
+            PropertyInfo[] values = typeof(CardDataSkeleton).GetProperties();
+            int count = 0;
+            foreach(KeyValuePair<string, SqliteType> pair in schema) {
+                //Console.WriteLine($"{pair.Key}||{pair.Value}");
+                //Console.WriteLine(values[count].GetValue(input,null));
+
+                if(values[count].GetValue(input,null) != null) {
+                    masterCommand.Parameters.Add(pair.Key, pair.Value);
+                    masterCommand.Parameters[pair.Key].Value = values[count].GetValue(input, null);
+                    Console.WriteLine("Value added");
+                } else {
+                    Console.WriteLine("Null value detected");
+                    masterCommand.Parameters.Add(pair.Key, pair.Value);
+                    switch(pair.Value) {
+                        case SqliteType.Integer:
+                            masterCommand.Parameters[pair.Key].Value = -1;
+                            break;
+                        case SqliteType.Text:
+                            masterCommand.Parameters[pair.Key].Value = "No value";
+                            break;
+                    }
+                }
+                count++;
+            }
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
                 Console.WriteLine("Inserting cards...");
             }
@@ -142,4 +153,28 @@ namespace Utils {
 //                    Console.WriteLine(rdr[0]);
 //                }
 //                rdr.Close();
+
+
+            //masterCommand.Parameters.Add("@card_id", SqliteType.Integer);
+            //masterCommand.Parameters["@card_id"].Value = input.id;
+            //masterCommand.Parameters.Add("@name", SqliteType.Text);
+            //masterCommand.Parameters["@name"].Value = input.name;
+            //masterCommand.Parameters.Add("@type", SqliteType.Text);
+            //masterCommand.Parameters["@type"].Value = input.type;
+            //masterCommand.Parameters.Add("@frameType", SqliteType.Text);
+            //masterCommand.Parameters["@frameType"].Value = input.frameType;
+            //masterCommand.Parameters.Add("@description", SqliteType.Text);
+            //masterCommand.Parameters["@description"].Value = input.desc;
+            //masterCommand.Parameters.Add("@atk", SqliteType.Integer);
+            //masterCommand.Parameters["@atk"].Value = input.atk;
+            //masterCommand.Parameters.Add("@def", SqliteType.Integer);
+            //masterCommand.Parameters["@def"].Value = input.def;
+            //masterCommand.Parameters.Add("@level", SqliteType.Integer);
+            //masterCommand.Parameters["@level"].Value = input.level;
+            //masterCommand.Parameters.Add("@race", SqliteType.Text);
+            //masterCommand.Parameters["@race"].Value = input.race;
+            //masterCommand.Parameters.Add("@attribute", SqliteType.Text);
+            //masterCommand.Parameters["@attribute"].Value = input.attribute;
+            //masterCommand.Parameters.Add("@copies", SqliteType.Integer);
+            //masterCommand.Parameters["@copies"].Value = input.copies;
 

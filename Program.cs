@@ -145,20 +145,9 @@ namespace YugiohLocalDatabase {
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
                 data.copies = copies;
-                var properties = from p in typeof(CardDataSkeleton).GetProperties()
-                                    select p;
-                foreach (var property in properties)
-                {
-                    Console.WriteLine(property.GetValue(data));
-                    if(property.GetValue(data) == null) {
-                        Console.WriteLine($"{property} is null");
-                        Console.WriteLine(property.PropertyType);
-                    }
-                }
                 SqlOperations.InsertCard(masterCommand, data);                               
             } catch(Exception e) {
                 Console.WriteLine(e);
-                throw e;
             }
         }
     }
