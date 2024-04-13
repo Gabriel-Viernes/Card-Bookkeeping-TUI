@@ -57,6 +57,12 @@ class Entry {
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+                        case 2:
+                            Console.Clear();
+                            Menu.UpdateCardMenu(masterCommand);
+                            Console.WriteLine("Press any key to continue...");
+                            Console.ReadKey();
+                            break;
                         case 4:
                             Console.Clear();
                             Console.WriteLine("Goodbye!");
@@ -123,6 +129,25 @@ namespace YugiohLocalDatabase {
                     break;
             }
             Console.WriteLine($"");
+        }
+        async public static void UpdateCardMenu(SqliteCommand masterCommand) {
+            Console.WriteLine("What card would you like to update?");
+            string cardName =  Console.ReadLine();
+            Console.WriteLine("How many copies do you have now?");
+            string newCopies = Console.ReadLine();
+            int newCopiesConverted = 0;
+            bool validInt = false;
+            while(validInt == false) {
+                if(Information.IsNumeric(newCopies) == true) {
+                    newCopiesConverted = Convert.ToInt32(newCopies);
+                    break;
+                } else {
+                    Console.WriteLine("Invalid characters detected, please only enter numbers");
+                    newCopies = Console.ReadLine();
+                }
+            }
+            SqlOperations.UpdateExistingCard(masterCommand, cardName, newCopiesConverted);
+
         }
 
     }

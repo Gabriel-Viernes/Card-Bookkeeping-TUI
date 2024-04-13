@@ -123,6 +123,14 @@ namespace Utils {
             }
            
         }
+        public static void UpdateExistingCard(SqliteCommand masterCommand, string cardName, int newCopies) {
+            masterCommand.Parameters.Clear();
+            masterCommand.CommandText = $"UPDATE cards set copies = ${newCopies} WHERE name = '{cardName}';";
+            using(var masterCommandReader = masterCommand.ExecuteReader()) {
+                Console.WriteLine("Updating cards...");
+            }
+        }
+        
     }
     class StringUtils {
         public static string MakeLengthUniform(int? input) {
