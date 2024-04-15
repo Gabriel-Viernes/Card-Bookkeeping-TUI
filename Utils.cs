@@ -103,9 +103,7 @@ namespace Utils {
                 if(values[count].GetValue(input,null) != null) {
                     masterCommand.Parameters.Add(pair.Key, pair.Value);
                     masterCommand.Parameters[pair.Key].Value = values[count].GetValue(input, null);
-                    Console.WriteLine("Value added");
                 } else {
-                    Console.WriteLine("Null value detected");
                     masterCommand.Parameters.Add(pair.Key, pair.Value);
                     switch(pair.Value) {
                         case SqliteType.Integer:

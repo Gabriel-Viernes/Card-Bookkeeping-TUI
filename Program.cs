@@ -24,7 +24,6 @@ class Entry {
         Console.WriteLine("Success!");
         Console.WriteLine("Initializing Master Command");
         var masterCommand = connection.CreateCommand();
-        Console.WriteLine(masterCommand);
         SqlOperations.DatabaseCheck(masterCommand);
         using HttpClient client = new();
         bool quit = false;
@@ -50,6 +49,8 @@ class Entry {
                     switch(mainMenu.index) {
                         case 0:
                             Menu.AddCardMenu(client, masterCommand);
+                            Console.WriteLine("Press any key to continue...");
+                            Console.ReadKey();
                             break;
                         case 1:
                             Console.Clear();
@@ -134,7 +135,6 @@ namespace YugiohLocalDatabase {
                     Console.WriteLine($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
                     break;
             }
-            Console.WriteLine($"");
         }
         async public static void UpdateCardMenu(SqliteCommand masterCommand) {
             Console.WriteLine("What card would you like to update?");
