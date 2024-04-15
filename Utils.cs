@@ -130,6 +130,13 @@ namespace Utils {
                 Console.WriteLine("Updating cards...");
             }
         }
+        public static void DeleteExistingCard(SqliteCommand masterCommand, string cardName) {
+            masterCommand.Parameters.Clear();
+            masterCommand.CommandText = $"DELETE FROM cards WHERE name = '{cardName}';";
+            using(var masterCommandReader = masterCommand.ExecuteReader()) {
+                Console.WriteLine("Deleting cards...");
+            }
+        }
         
     }
     class StringUtils {

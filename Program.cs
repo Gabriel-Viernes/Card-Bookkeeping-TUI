@@ -63,6 +63,12 @@ class Entry {
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+                        case 3:
+                            Console.Clear();
+                            Menu.DeleteCardMenu(masterCommand);
+                            Console.WriteLine("Press any key to continue...");
+                            Console.ReadKey();
+                            break;
                         case 4:
                             Console.Clear();
                             Console.WriteLine("Goodbye!");
@@ -147,7 +153,11 @@ namespace YugiohLocalDatabase {
                 }
             }
             SqlOperations.UpdateExistingCard(masterCommand, cardName, newCopiesConverted);
-
+        }
+        async public static void DeleteCardMenu(SqliteCommand masterCommand) {
+            Console.WriteLine("What card would you like to delete?");
+            string cardName = Console.ReadLine();
+            SqlOperations.DeleteExistingCard(masterCommand, cardName);
         }
 
     }
