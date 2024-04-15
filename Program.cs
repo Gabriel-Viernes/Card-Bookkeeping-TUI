@@ -105,10 +105,9 @@ namespace YugiohLocalDatabase {
             return;
         }       
         async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
-            CardLookup findCard = new CardLookup(client);
             Console.WriteLine("Please enter the name of the card you would like to add");
             try {
-                await findCard.GetCard(masterCommand);
+                await HttpOperations.GetCard(masterCommand, client);
             } catch (Exception e) {
                 Console.WriteLine("An error occurred");
                 Console.WriteLine(e);
@@ -162,16 +161,10 @@ namespace YugiohLocalDatabase {
 
     }
 
-    public class CardLookup {
-        public string? card;
-        public HttpClient client;
-        public CardDataSkeleton data;
-        public CardLookup(HttpClient inputClient) {
-            client = inputClient;
-            data = new CardDataSkeleton();
-        }
-        public async Task GetCard(SqliteCommand masterCommand) {
-            card = Console.ReadLine();
+    public class HttpOperations {
+        public static async Task GetCard(SqliteCommand masterCommand, HttpClient client) {
+            CardDataSkeleton data = new CardDataSkeleton();
+            string card = Console.ReadLine();
             if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
                 Console.WriteLine("Card already exists!");
                 return;

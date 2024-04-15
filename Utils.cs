@@ -42,11 +42,7 @@ namespace Utils {
             Console.WriteLine("Checking for existing card...");
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
                 while (masterCommandReader.Read()) {
-                    Console.WriteLine("reading...");
                     string test = masterCommandReader.GetString(0);
-                    Console.WriteLine(test);
-                    Console.WriteLine("break");
-                    Console.ReadLine();
                     if(test == $"{input}") {
                         return true;
                     }
