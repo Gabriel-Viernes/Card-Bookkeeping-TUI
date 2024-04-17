@@ -90,9 +90,9 @@ namespace YugiohLocalDatabase {
             menuItems = items;
         }
         public void Display() {
-            Console.WriteLine("======================================================");
-            Console.WriteLine("         Welcome to the Yugioh Local Database!        ");
-            Console.WriteLine("======================================================");
+            Console.WriteLine("┌──────────────────────────────────────────────────────┐");
+            Console.WriteLine("│         Welcome to the Yugioh Local Database!        │");
+            Console.WriteLine("└──────────────────────────────────────────────────────┘");
             for(int i = 0; i < menuItems.Length; i++) {
 
                 if(i == index) {
