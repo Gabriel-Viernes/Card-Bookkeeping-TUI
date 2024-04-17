@@ -13,9 +13,7 @@ using Formatting;
 class Entry {
     static void Main(string[] args) {
         Console.Clear();
-        string putThisInAConfigRetard = "Data Source=yugioh.db";
-        //TODO: lrn to use configs
-        SqliteConnection connection = new SqliteConnection(putThisInAConfigRetard);
+        SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
         Console.WriteLine("Connecting to data server...");
         try {
             connection.Open();
