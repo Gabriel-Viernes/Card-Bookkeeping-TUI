@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic;
 using YugiohLocalDatabase;
 using Microsoft.Data.Sqlite;
+using Formatting;
 
 class Entry {
     static void Main(string[] args) {

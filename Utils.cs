@@ -93,9 +93,6 @@ namespace Utils {
             PropertyInfo[] values = typeof(CardDataSkeleton).GetProperties();
             int count = 0;
             foreach(KeyValuePair<string, SqliteType> pair in schema) {
-                //Console.WriteLine($"{pair.Key}||{pair.Value}");
-                //Console.WriteLine(values[count].GetValue(input,null));
-
                 if(values[count].GetValue(input,null) != null) {
                     masterCommand.Parameters.Add(pair.Key, pair.Value);
                     masterCommand.Parameters[pair.Key].Value = values[count].GetValue(input, null);
@@ -136,7 +133,6 @@ namespace Utils {
     class StringUtils {
         public static string MakeLengthUniform(int? input) {
             string output = input.ToString();
-            // |ATK:    |DEF:    |Level:
             if(output.Length < 8) {
                 string empty = new string (' ', 8 - output.Length);
                 output = empty+output;
