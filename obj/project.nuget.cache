@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cqphWOBQwcsbo83vxswS+RedJjvaX5v/RdCYSALbOGEyP4D2xiAj21vjQq2HI38Kb9/h3twDV4eImmcnLkR3yg==",
+  "dgSpecHash": "S09eEIu35EZMOUyMr0VI4L8eiI/kILzEyLEchD52/yoKlOLFDjvsQleORnezUFqFs1n5OZwTBJrNsQeaDlSPeA==",
   "success": true,
-  "projectFilePath": "/home/notsito/documents/yugiohLocalDatabase/yugiohLocalDatabase.csproj",
+  "projectFilePath": "/home/notsito/documents/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj",
   "expectedPackageFiles": [
     "/home/notsito/.nuget/packages/bouncycastle.cryptography/2.2.1/bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "/home/notsito/.nuget/packages/google.protobuf/3.25.1/google.protobuf.3.25.1.nupkg.sha512",

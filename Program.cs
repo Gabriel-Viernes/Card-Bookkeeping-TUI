@@ -6,7 +6,7 @@ using System.Text.Json;
 using Utils;
 using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic;
-using YugiohLocalDatabase;
+using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
 using Formatting;
 
@@ -81,7 +81,7 @@ class Entry {
     }
 }
 
-namespace YugiohLocalDatabase {
+namespace CardBookkeepingTUI {
     public class Menu {
         public int index;
         public string[] menuItems;
@@ -91,7 +91,7 @@ namespace YugiohLocalDatabase {
         }
         public void Display() {
             Console.WriteLine("┌──────────────────────────────────────────────────────┐");
-            Console.WriteLine("│         Welcome to the Yugioh Local Database!        │");
+            Console.WriteLine("│         Welcome to the Card Bookkeeping TUI!         │");
             Console.WriteLine("└──────────────────────────────────────────────────────┘");
             for(int i = 0; i < menuItems.Length; i++) {
 
