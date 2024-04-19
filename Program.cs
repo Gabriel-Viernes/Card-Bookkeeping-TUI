@@ -12,6 +12,13 @@ using Formatting;
 
 class Entry {
     static void Main(string[] args) {
+        List<string> options = new List<string>(){"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        Textbox.Print(50, 10, options, 0);
+        Textbox.Print(50, 10, options, 1);
+        Textbox.Print(50, 10, options, 2);
+        Textbox.Print(50, 10, options, 3);
+
+        Console.ReadKey();
         Console.Clear();
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
         Console.WriteLine("Connecting to data server...");

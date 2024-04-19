@@ -1,9 +1,10 @@
 using MySql.Data;
 using MySql.Data.MySqlClient;
-using YugiohLocalDatabase;
+using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
 using System.Reflection;
 using System.Collections.Generic;
+
 namespace Utils {
     class SqlOperations {
         public static void DatabaseCheck(SqliteCommand masterCommand) {
