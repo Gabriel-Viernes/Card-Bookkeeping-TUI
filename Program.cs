@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
-using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic;
 using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
@@ -14,9 +13,8 @@ class Entry {
     static void Main(string[] args) {
         List<string> options = new List<string>(){"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
         Textbox.Print(50, 10, options, 0);
-        Textbox.Print(50, 10, options, 1);
+        Textbox.Print(Console.WindowWidth, 10, options, 1);
         Textbox.Print(50, 10, options, 2);
-        Textbox.Print(50, 10, options, 3);
 
         Console.ReadKey();
         Console.Clear();

@@ -39,8 +39,6 @@ namespace Formatting {
             top = top + "┐";
             bottom = bottom + "┘";
             
-            WriteLine($"{text.Count} || {height}");
-
             WriteLine(top);
             switch(alignment) {
                 case 0:
