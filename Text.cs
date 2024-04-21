@@ -3,8 +3,32 @@ using static System.Console;
 
 
 namespace Formatting {
+    public class Screen {
+        public static List<string> Center(List<string> text) {
+
+            //this method assumes that all strings within the list are the same length
+
+            int originalLength = 0;
+            for(int i = 0; i < text.Count; i++) {
+                originalLength = text[i].Length;
+                for(int j = 0; j < ((WindowWidth/2)-(originalLength/2)); j++) {
+                    text[i] = " " + text[i];
+                }
+            }
+
+            return text;
+        }
+
+
+    }
     public class Textbox {
-        public static void Print(int width, int height, List<string> text, int alignment) {
+        public static void Print(List<string> text) {
+            for(int i = 0; i < text.Count; i++) {
+                WriteLine(text[i]);
+            }
+        }
+
+        public static List<string> Generate(int width, int height, List<string> text, int alignment) {
 
             if((alignment > 2) || (alignment < 0)) {
                 Exception e = new Exception("Invalid alignment specified. Please choose from a range of 0-2");
@@ -38,27 +62,29 @@ namespace Formatting {
 
             top = top + "┐";
             bottom = bottom + "┘";
+
+            List<string> generatedTextbox = new List<string>() {top};
             
-            WriteLine(top);
             switch(alignment) {
                 case 0:
                     for(int i = 0; i < height-2; i++) {
-                        WriteLine(Align.LeftAlign(text[i], width));
+                        generatedTextbox.Add(Align.LeftAlign(text[i], width));
                     }
                     break;
                 case 1:
                     for(int i = 0; i < height-2; i++) {
-                        WriteLine(Align.CenterAlign(text[i], width));
+                        generatedTextbox.Add(Align.CenterAlign(text[i], width));
                     }
                     break;
                 case 2:
                     for(int i = 0; i < height-2; i++) {
-                        WriteLine(Align.RightAlign(text[i],width));
+                        generatedTextbox.Add(Align.RightAlign(text[i],width));
                         
                     }
                     break;
             }
-            WriteLine(bottom);
+            generatedTextbox.Add(bottom);
+            return generatedTextbox;
         }
 
     }

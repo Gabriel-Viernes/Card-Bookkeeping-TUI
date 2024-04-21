@@ -12,10 +12,18 @@ using Formatting;
 class Entry {
     static void Main(string[] args) {
         List<string> options = new List<string>(){"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
-        Textbox.Print(50, 10, options, 0);
-        Textbox.Print(Console.WindowWidth, 10, options, 1);
-        Textbox.Print(50, 10, options, 2);
+        options = Screen.Center(Textbox.Generate(20, 7, options, 1));
 
+        for(int i = 0; i < options.Count; i++) {
+            Console.WriteLine(options[i]);
+        }
+        
+        string test = "";
+        for(int i = 0; test.Length < Console.WindowWidth/2; i++) {
+            test = test + $"{i}|||||||||";
+        }
+        Console.WriteLine(test);
+        
         Console.ReadKey();
         Console.Clear();
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
@@ -95,9 +103,8 @@ namespace CardBookkeepingTUI {
             menuItems = items;
         }
         public void Display() {
-            Console.WriteLine("┌──────────────────────────────────────────────────────┐");
-            Console.WriteLine("│         Welcome to the Card Bookkeeping TUI!         │");
-            Console.WriteLine("└──────────────────────────────────────────────────────┘");
+            List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, splash, 1)));
             for(int i = 0; i < menuItems.Length; i++) {
 
                 if(i == index) {

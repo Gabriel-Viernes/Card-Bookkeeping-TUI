@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/notsito/documents/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj": {}
+    "/home/notsito/documents/projects/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj": {}
   },
   "projects": {
-    "/home/notsito/documents/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj": {
+    "/home/notsito/documents/projects/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/notsito/documents/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj",
+        "projectUniqueName": "/home/notsito/documents/projects/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj",
         "projectName": "CardBookkeepingTUI",
-        "projectPath": "/home/notsito/documents/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj",
+        "projectPath": "/home/notsito/documents/projects/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj",
         "packagesPath": "/home/notsito/.nuget/packages/",
-        "outputPath": "/home/notsito/documents/Card-Bookkeeping-TUI/obj/",
+        "outputPath": "/home/notsito/documents/projects/Card-Bookkeeping-TUI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/notsito/.nuget/NuGet/NuGet.Config"
