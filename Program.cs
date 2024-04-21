@@ -26,6 +26,7 @@ class Entry {
         
         Console.ReadKey();
         Console.Clear();
+
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
         Console.WriteLine("Connecting to data server...");
         try {
@@ -33,15 +34,18 @@ class Entry {
         } catch(Exception e) {
             Console.WriteLine(e);
         }
+
         Console.WriteLine("Success!");
         Console.WriteLine("Initializing Master Command");
+
         var masterCommand = connection.CreateCommand();
         SqlOperations.DatabaseCheck(masterCommand);
         using HttpClient client = new();
+
         bool quit = false;
-        string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        List<string> mainMenuOptions = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
         Menu mainMenu = new Menu(mainMenuOptions);
-        //menu code begins here
+
         while (quit == false) {
             mainMenu.Display();
             switch(Console.ReadKey().Key) {
@@ -51,70 +55,100 @@ class Entry {
                     }
                     Console.Clear();
                     break;
+
                 case System.ConsoleKey.DownArrow:
-                    if(mainMenu.index < mainMenu.menuItems.Length-1) {
+                    if(mainMenu.index < mainMenu.menuItems.Count-1) {
                         mainMenu.index++;
                     }
                     Console.Clear();
                     break;
+
                 case System.ConsoleKey.Enter:
                     switch(mainMenu.index) {
                         case 0:
+                            Console.Clear();
                             Menu.AddCardMenu(client, masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 1:
                             Console.Clear();
                             Menu.FindCardMenu(masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 2:
                             Console.Clear();
                             Menu.UpdateCardMenu(masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 3:
                             Console.Clear();
                             Menu.DeleteCardMenu(masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 4:
                             Console.Clear();
                             Console.WriteLine("Goodbye!");
                             quit = true;
-                        break;
+                            break;
                     }
                     break;
+                default:
+                    Console.Clear();
+                    break;
+
             }
         }
     }
 }
 
 namespace CardBookkeepingTUI {
+
     public class Menu {
+
         public int index;
-        public string[] menuItems;
-        public Menu(string[] items) {
+        public List<string> menuItems;
+
+        public Menu(List<string> items) {
             index = 0;
             menuItems = items;
         }
-        public void Display() {
-            List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
-            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, splash, 1)));
-            for(int i = 0; i < menuItems.Length; i++) {
 
+        public void Display() {
+
+            List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
+            List<string> displayed = new List<string>();
+            for(int i = 0; i < menuItems.Count; i++) {
+                displayed.Add(menuItems[i]);
+            }
+
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, splash, 1)));
+
+            for(int i = 0; i < displayed.Count; i++) {
                 if(i == index) {
-                    Console.WriteLine($"[[{menuItems[i]}]]");
-                } else {
-                    Console.WriteLine($"{menuItems[i]}");
+                    displayed[i] = $"[[{displayed[i]}]]";
                 }
             }
+
+            Textbox.Print(Screen.Center(Textbox.Generate(20, 7, displayed, 1)));
+
+            //for(int i = 0; i < menuItems.Count; i++) {
+            //    if(i == index) {
+            //        Console.WriteLine($"[[{menuItems[i]}]]");
+            //    } else {
+            //        Console.WriteLine($"{menuItems[i]}");
+            //    }
+            //}
             return;
         }       
+
         async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
             Console.WriteLine("Please enter the name of the card you would like to add");
             try {
@@ -125,6 +159,7 @@ namespace CardBookkeepingTUI {
                 AddCardMenu(client, masterCommand);
             }
         }
+
         async public static void FindCardMenu(SqliteCommand masterCommand) {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
