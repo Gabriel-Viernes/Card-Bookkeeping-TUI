@@ -12,31 +12,21 @@ using Formatting;
 class Entry {
     static void Main(string[] args) {
         List<string> options = new List<string>(){"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
-        options = Screen.Center(Textbox.Generate(20, 7, options, 1));
-
-        for(int i = 0; i < options.Count; i++) {
-            Console.WriteLine(options[i]);
-        }
-        
-        string test = "";
-        for(int i = 0; test.Length < Console.WindowWidth/2; i++) {
-            test = test + $"{i}|||||||||";
-        }
-        Console.WriteLine(test);
-        
-        Console.ReadKey();
         Console.Clear();
 
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
         Console.WriteLine("Connecting to data server...");
+
         try {
             connection.Open();
         } catch(Exception e) {
             Console.WriteLine(e);
         }
 
+
         Console.WriteLine("Success!");
         Console.WriteLine("Initializing Master Command");
+        Console.Clear();
 
         var masterCommand = connection.CreateCommand();
         SqlOperations.DatabaseCheck(masterCommand);
@@ -150,7 +140,11 @@ namespace CardBookkeepingTUI {
         }       
 
         async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
-            Console.WriteLine("Please enter the name of the card you would like to add");
+
+            List<string> message = new List<string>() {"", "Please enter the name of the card you would liek to add", ""};
+            
+            Textbox.Print(Screen.Center(Textbox.Generate(100, 5, message, 1)));
+
             try {
                 await HttpOperations.GetCard(masterCommand, client);
             } catch (Exception e) {
@@ -209,12 +203,23 @@ namespace CardBookkeepingTUI {
 
     public class HttpOperations {
         public static async Task GetCard(SqliteCommand masterCommand, HttpClient client) {
+
             CardDataSkeleton data = new CardDataSkeleton();
-            string card = Console.ReadLine();
+
+            string? card = Console.ReadLine();
+            
+            List<string> nullMessage = new List<string>() {"", "Please enter the name of the card you would like to add", "Input too short", ""};
+            while (card.Length == 0) {
+                Console.Clear();
+                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, nullMessage, 1)));
+                card = Console.ReadLine();
+            }
+
             if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
                 Console.WriteLine("Card already exists!");
                 return;
             }
+
             Console.WriteLine("How many copies do you have?");
             string copiesRaw = Console.ReadLine();
             int copies = 0;
