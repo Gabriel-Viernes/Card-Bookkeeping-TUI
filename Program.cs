@@ -11,7 +11,8 @@ using Formatting;
 
 class Entry {
     static void Main(string[] args) {
-        List<string> options = new List<string>(){"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        Textbox.PrintInputBox(50);
+        Console.ReadKey();
         Console.Clear();
 
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");

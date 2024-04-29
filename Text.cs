@@ -3,10 +3,12 @@ using static System.Console;
 
 
 namespace Formatting {
+
     public class Screen {
         public static List<string> Center(List<string> text) {
 
             //this method assumes that all strings within the list are the same length
+            //adds empty space to the left of every string in a list to "center" a textbox
 
             int originalLength = 0;
             for(int i = 0; i < text.Count; i++) {
@@ -21,11 +23,34 @@ namespace Formatting {
 
 
     }
+
     public class Textbox {
+
         public static void Print(List<string> text) {
+
+            //meant to be usual exit point for textboxes
+            //prints a List<string> that's been manipulated to user requirements
+
             for(int i = 0; i < text.Count; i++) {
                 WriteLine(text[i]);
             }
+        }
+
+        public static string PrintInputBox(int width) {
+
+            //exit point for input textboxes that return input
+
+            List<string> text = new List<string>() {"  > "};
+            text = Screen.Center(Textbox.Generate(width, 3, text, 0));
+
+            Textbox.Print(text);
+
+            CursorLeft = (text[0].Length - width + 5);
+            CursorTop = CursorTop - 2;
+
+            string input = ReadLine();
+            return input;
+
         }
 
         public static List<string> Generate(int width, int height, List<string> text, int alignment) {
