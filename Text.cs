@@ -39,7 +39,8 @@ namespace Formatting {
         public static string PrintInputBox(int width) {
 
             //exit point for input textboxes that return input
-
+            
+            CursorVisible = true;
             List<string> text = new List<string>() {"  > "};
             text = Screen.Center(Textbox.Generate(width, 3, text, 0));
 
@@ -49,6 +50,7 @@ namespace Formatting {
             CursorTop = CursorTop - 2;
 
             string input = ReadLine();
+            CursorVisible = false;
             return input;
 
         }
