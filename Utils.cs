@@ -40,7 +40,6 @@ namespace Utils {
         public static bool CheckForExistingCard(SqliteCommand masterCommand, string input) {
             masterCommand.Parameters.Clear();
             masterCommand.CommandText = $"SELECT name FROM cards WHERE name = '{input}';";
-            Console.WriteLine("Checking for existing card...");
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
                 while (masterCommandReader.Read()) {
                     string test = masterCommandReader.GetString(0);
@@ -54,7 +53,6 @@ namespace Utils {
         public static CardDataSkeleton FindExistingCard(SqliteCommand masterCommand, string input) {
             masterCommand.Parameters.Clear();
             masterCommand.CommandText = $"SELECT * FROM cards WHERE name = '{input}';";
-            Console.WriteLine("Checking for existing card...");
             CardDataSkeleton data = new CardDataSkeleton();
             using (var masterCommandReader = masterCommand.ExecuteReader()) {
                 while (masterCommandReader.Read()) {

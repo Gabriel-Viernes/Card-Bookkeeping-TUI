@@ -1,0 +1,4 @@
+alpha/0.0.4:
+
+    - Every menu now uses a nice textbox
+    - Implemented input text boxes

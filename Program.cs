@@ -11,8 +11,6 @@ using Formatting;
 
 class Entry {
     static void Main(string[] args) {
-        Textbox.PrintInputBox(50);
-        Console.ReadKey();
         Console.Clear();
 
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
@@ -38,9 +36,19 @@ class Entry {
         Menu mainMenu = new Menu(mainMenuOptions);
 
         while (quit == false) {
+            Console.CursorVisible = false;
+            Console.Clear();
             mainMenu.Display();
+
             switch(Console.ReadKey().Key) {
                 case System.ConsoleKey.UpArrow:
+                    if(mainMenu.index > 0) {
+                        mainMenu.index--;
+                    }
+                    Console.Clear();
+                    break;
+
+                case System.ConsoleKey.K:
                     if(mainMenu.index > 0) {
                         mainMenu.index--;
                     }
@@ -54,40 +62,40 @@ class Entry {
                     Console.Clear();
                     break;
 
+                case System.ConsoleKey.J:
+                    if(mainMenu.index < mainMenu.menuItems.Count-1) {
+                        mainMenu.index++;
+                    }
+                    Console.Clear();
+                    break;
+
                 case System.ConsoleKey.Enter:
                     switch(mainMenu.index) {
                         case 0:
                             Console.Clear();
                             Menu.AddCardMenu(client, masterCommand);
-                            Console.WriteLine("Press any key to continue...");
-                            Console.ReadKey();
                             break;
 
                         case 1:
                             Console.Clear();
                             Menu.FindCardMenu(masterCommand);
-                            Console.WriteLine("Press any key to continue...");
-                            Console.ReadKey();
                             break;
 
                         case 2:
                             Console.Clear();
                             Menu.UpdateCardMenu(masterCommand);
-                            Console.WriteLine("Press any key to continue...");
-                            Console.ReadKey();
                             break;
 
                         case 3:
                             Console.Clear();
                             Menu.DeleteCardMenu(masterCommand);
-                            Console.WriteLine("Press any key to continue...");
-                            Console.ReadKey();
                             break;
 
                         case 4:
                             Console.Clear();
                             Console.WriteLine("Goodbye!");
                             quit = true;
+                            Console.CursorVisible = true;
                             break;
                     }
                     break;
@@ -142,9 +150,9 @@ namespace CardBookkeepingTUI {
 
         async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
 
-            List<string> message = new List<string>() {"", "Please enter the name of the card you would liek to add", ""};
+            List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", ""};
             
-            Textbox.Print(Screen.Center(Textbox.Generate(100, 5, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
 
             try {
                 await HttpOperations.GetCard(masterCommand, client);
@@ -156,31 +164,58 @@ namespace CardBookkeepingTUI {
         }
 
         async public static void FindCardMenu(SqliteCommand masterCommand) {
-            Console.WriteLine("Card Name?");
-            string input = Console.ReadLine();
-            CardDataSkeleton data = SqlOperations.FindExistingCard(masterCommand, input);
-            Console.WriteLine($"You have {data.copies} copies of {data.name}");
+
+            List<string> message = new List<string>() {"", "What card are you looking for?", ""};
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, message, 1)));
+            string input = Textbox.PrintInputBox(30);
+
+            CardDataSkeleton data = new CardDataSkeleton();
+
+            try {
+                data = SqlOperations.FindExistingCard(masterCommand, input);
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                return;
+            }
+
+            Console.Clear();
+            message.Clear();
+            message.Add("");
+            message.Add($"You have {data.copies} copies of {data.name}");
             switch(data.type) {
                 case "Spell Card":
-                    Console.WriteLine($"Type: {data.type}");
-                    Console.WriteLine($"{data.desc}");
+                    message.Add($"Type: {data.type}");
+                    message.Add($"{data.desc}");
                     break;
                 case "Trap Card":
-                    Console.WriteLine($"Type: {data.type}");
-                    Console.WriteLine($"{data.desc}");
+                    message.Add($"Type: {data.type}");
+                    message.Add($"{data.desc}");
                     break;
                 default:
-                    Console.WriteLine($"Type: {data.type}");
-                    Console.WriteLine($"|ATK:    |DEF:    |LEVEL:  |");
-                    Console.WriteLine($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
+                    message.Add($"Type: {data.type}");
+                    message.Add($"|ATK:    |DEF:    |LEVEL:  |");
+                    message.Add($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
+                    
                     break;
             }
+            
+            message.Add($"Press any key to continue...");
+            message.Add("");
+            Textbox.Print(Screen.Center(Textbox.Generate(40, (message.Count + 2), message, 1)));
+            Console.ReadKey();
         }
+
         async public static void UpdateCardMenu(SqliteCommand masterCommand) {
-            Console.WriteLine("What card would you like to update?");
-            string cardName =  Console.ReadLine();
-            Console.WriteLine("How many copies do you have now?");
-            string newCopies = Console.ReadLine();
+
+            List<string> message = new List<string>() {"", "What card would you like to update?", "", ""};
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 6, message, 1)));
+            string cardName = Textbox.PrintInputBox(30);
+
+            Console.Clear();
+            message[1] = "How many copies do you have now?";
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 6, message, 1)));
+            string newCopies = Textbox.PrintInputBox(30);
+
             int newCopiesConverted = 0;
             bool validInt = false;
             while(validInt == false) {
@@ -188,18 +223,44 @@ namespace CardBookkeepingTUI {
                     newCopiesConverted = Convert.ToInt32(newCopies);
                     break;
                 } else {
-                    Console.WriteLine("Invalid characters detected, please only enter numbers");
-                    newCopies = Console.ReadLine();
+                    Console.Clear();
+                    message[2] = "Invalid characters detected, please only enter numbers";
+                    Textbox.Print(Screen.Center(Textbox.Generate(60, 6, message, 1)));
+                    newCopies = Textbox.PrintInputBox(30);
                 }
             }
-            SqlOperations.UpdateExistingCard(masterCommand, cardName, newCopiesConverted);
-        }
-        async public static void DeleteCardMenu(SqliteCommand masterCommand) {
-            Console.WriteLine("What card would you like to delete?");
-            string cardName = Console.ReadLine();
-            SqlOperations.DeleteExistingCard(masterCommand, cardName);
+
+            try {
+                SqlOperations.UpdateExistingCard(masterCommand, cardName, newCopiesConverted);
+            } catch(Exception e) {
+                Console.WriteLine(e);
+            }
+
+            Console.Clear();
+            message[2] = "";
+            message[1] = "Press any key to continue...";
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 6, message, 1)));
+            Console.ReadKey();
+
         }
 
+        async public static void DeleteCardMenu(SqliteCommand masterCommand) {
+            List<string> message = new List<string>() { "", "What card would you like to delete?", ""};
+            Textbox.Print(Screen.Center(Textbox.Generate(60, 5, message, 1)));
+            string cardName = Textbox.PrintInputBox(30);
+
+            try {
+                SqlOperations.DeleteExistingCard(masterCommand, cardName);
+            } catch (Exception e) {
+                Console.WriteLine(e);
+            }
+
+            Console.Clear();
+            message[1] = "Press any key to continue...";
+            Textbox.Print(Screen.Center(Textbox.Generate(60, 5, message, 1)));
+            Console.ReadKey();
+            return;
+        }
     }
 
     public class HttpOperations {
@@ -207,22 +268,33 @@ namespace CardBookkeepingTUI {
 
             CardDataSkeleton data = new CardDataSkeleton();
 
-            string? card = Console.ReadLine();
+            string? card = Textbox.PrintInputBox(30);
             
-            List<string> nullMessage = new List<string>() {"", "Please enter the name of the card you would like to add", "Input too short", ""};
+            List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", "", ""};
+
             while (card.Length == 0) {
                 Console.Clear();
-                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, nullMessage, 1)));
-                card = Console.ReadLine();
+                message[2] = "Input too short";
+                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+                card = Textbox.PrintInputBox(30);
             }
 
+            message[2] = "";
+
             if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
-                Console.WriteLine("Card already exists!");
+                Console.Clear();
+                message[1] = "Card already exists! Please update the card instead";
+                message[2] = "Press any key to continue...";
+                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+                Console.ReadKey();
                 return;
             }
 
-            Console.WriteLine("How many copies do you have?");
-            string copiesRaw = Console.ReadLine();
+            message[1] = "How many copies do you have?";
+            Console.Clear();
+            Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+            string copiesRaw = Textbox.PrintInputBox(30);
+
             int copies = 0;
             bool validInt = false;
             while(validInt == false) {
@@ -230,8 +302,10 @@ namespace CardBookkeepingTUI {
                     copies = Convert.ToInt32(copiesRaw);
                     break;
                 } else {
-                    Console.WriteLine("Invalid characters detected, please only enter numbers");
-                    copiesRaw = Console.ReadLine();
+                    Console.Clear();
+                    message[1] = "Invalid characters detected, please only enter numbers";
+                    Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+                    copiesRaw = Textbox.PrintInputBox(30);
                 }
             }
             card = card.Replace(" ","%20");
@@ -250,6 +324,7 @@ namespace CardBookkeepingTUI {
             }
         }
     }
+
     public class CardSkeleton {
         public object[] data { get; set; }
     }
