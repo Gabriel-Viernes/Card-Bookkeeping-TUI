@@ -4,32 +4,39 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
-using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic;
-using YugiohLocalDatabase;
+using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
+using Formatting;
 
 class Entry {
     static void Main(string[] args) {
+        Textbox.PrintInputBox(50);
+        Console.ReadKey();
         Console.Clear();
-        string putThisInAConfigRetard = "Data Source=yugioh.db";
-        //TODO: lrn to use configs
-        SqliteConnection connection = new SqliteConnection(putThisInAConfigRetard);
+
+        SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
         Console.WriteLine("Connecting to data server...");
+
         try {
             connection.Open();
         } catch(Exception e) {
             Console.WriteLine(e);
         }
+
+
         Console.WriteLine("Success!");
         Console.WriteLine("Initializing Master Command");
+        Console.Clear();
+
         var masterCommand = connection.CreateCommand();
         SqlOperations.DatabaseCheck(masterCommand);
         using HttpClient client = new();
+
         bool quit = false;
-        string[] mainMenuOptions = {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        List<string> mainMenuOptions = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
         Menu mainMenu = new Menu(mainMenuOptions);
-        //menu code begins here
+
         while (quit == false) {
             mainMenu.Display();
             switch(Console.ReadKey().Key) {
@@ -39,73 +46,106 @@ class Entry {
                     }
                     Console.Clear();
                     break;
+
                 case System.ConsoleKey.DownArrow:
-                    if(mainMenu.index < mainMenu.menuItems.Length-1) {
+                    if(mainMenu.index < mainMenu.menuItems.Count-1) {
                         mainMenu.index++;
                     }
                     Console.Clear();
                     break;
+
                 case System.ConsoleKey.Enter:
                     switch(mainMenu.index) {
                         case 0:
+                            Console.Clear();
                             Menu.AddCardMenu(client, masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 1:
                             Console.Clear();
                             Menu.FindCardMenu(masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 2:
                             Console.Clear();
                             Menu.UpdateCardMenu(masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 3:
                             Console.Clear();
                             Menu.DeleteCardMenu(masterCommand);
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
                             break;
+
                         case 4:
                             Console.Clear();
                             Console.WriteLine("Goodbye!");
                             quit = true;
-                        break;
+                            break;
                     }
                     break;
+                default:
+                    Console.Clear();
+                    break;
+
             }
         }
     }
 }
 
-namespace YugiohLocalDatabase {
+namespace CardBookkeepingTUI {
+
     public class Menu {
+
         public int index;
-        public string[] menuItems;
-        public Menu(string[] items) {
+        public List<string> menuItems;
+
+        public Menu(List<string> items) {
             index = 0;
             menuItems = items;
         }
-        public void Display() {
-            Console.WriteLine("======================================================");
-            Console.WriteLine("         Welcome to the Yugioh Local Database!        ");
-            Console.WriteLine("======================================================");
-            for(int i = 0; i < menuItems.Length; i++) {
 
+        public void Display() {
+
+            List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
+            List<string> displayed = new List<string>();
+            for(int i = 0; i < menuItems.Count; i++) {
+                displayed.Add(menuItems[i]);
+            }
+
+            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, splash, 1)));
+
+            for(int i = 0; i < displayed.Count; i++) {
                 if(i == index) {
-                    Console.WriteLine($"[[{menuItems[i]}]]");
-                } else {
-                    Console.WriteLine($"{menuItems[i]}");
+                    displayed[i] = $"[[{displayed[i]}]]";
                 }
             }
+
+            Textbox.Print(Screen.Center(Textbox.Generate(20, 7, displayed, 1)));
+
+            //for(int i = 0; i < menuItems.Count; i++) {
+            //    if(i == index) {
+            //        Console.WriteLine($"[[{menuItems[i]}]]");
+            //    } else {
+            //        Console.WriteLine($"{menuItems[i]}");
+            //    }
+            //}
             return;
         }       
+
         async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
-            Console.WriteLine("Please enter the name of the card you would like to add");
+
+            List<string> message = new List<string>() {"", "Please enter the name of the card you would liek to add", ""};
+            
+            Textbox.Print(Screen.Center(Textbox.Generate(100, 5, message, 1)));
+
             try {
                 await HttpOperations.GetCard(masterCommand, client);
             } catch (Exception e) {
@@ -114,6 +154,7 @@ namespace YugiohLocalDatabase {
                 AddCardMenu(client, masterCommand);
             }
         }
+
         async public static void FindCardMenu(SqliteCommand masterCommand) {
             Console.WriteLine("Card Name?");
             string input = Console.ReadLine();
@@ -163,12 +204,23 @@ namespace YugiohLocalDatabase {
 
     public class HttpOperations {
         public static async Task GetCard(SqliteCommand masterCommand, HttpClient client) {
+
             CardDataSkeleton data = new CardDataSkeleton();
-            string card = Console.ReadLine();
+
+            string? card = Console.ReadLine();
+            
+            List<string> nullMessage = new List<string>() {"", "Please enter the name of the card you would like to add", "Input too short", ""};
+            while (card.Length == 0) {
+                Console.Clear();
+                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, nullMessage, 1)));
+                card = Console.ReadLine();
+            }
+
             if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
                 Console.WriteLine("Card already exists!");
                 return;
             }
+
             Console.WriteLine("How many copies do you have?");
             string copiesRaw = Console.ReadLine();
             int copies = 0;
