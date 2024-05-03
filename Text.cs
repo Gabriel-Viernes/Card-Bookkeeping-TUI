@@ -26,15 +26,7 @@ namespace Formatting {
 
     public class Textbox {
 
-        public static void PrintAtPosition(List<string> text, int x, int y) {
-            CursorLeft = x; CursorTop = y;
-
-            for(int i = 0; i < text.Count; i++) {
-                CursorLeft = x;
-                WriteLine(text[i]);
-            }
-
-        }
+        
 
         public static void Print(List<string> text) {
 
@@ -46,13 +38,23 @@ namespace Formatting {
             }
         }
 
+        public static void Print(List<string> text, int x, int y) {
+            CursorLeft = x; CursorTop = y;
+
+            for(int i = 0; i < text.Count; i++) {
+                CursorLeft = x;
+                WriteLine(text[i]);
+            }
+
+        }
+
         public static string PrintInputBox(int width) {
 
             //exit point for input textboxes that return input
             
             CursorVisible = true;
             List<string> text = new List<string>() {"  > "};
-            text = Screen.Center(Textbox.Generate(width, 3, text, 0));
+            text = Screen.Center(Textbox.Generate(text, width, 3,  0));
 
             Textbox.Print(text);
 

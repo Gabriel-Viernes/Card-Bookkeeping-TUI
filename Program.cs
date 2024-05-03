@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
+using static Utils.LogUtils;
 using Microsoft.VisualBasic;
 using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
@@ -12,17 +13,12 @@ using Formatting;
 class Entry {
     static void Main(string[] args) {
 
-        Console.Clear();
-
-        List<string> test = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
-        test = Textbox.Generate(test, 30, 8, 1);
-        Textbox.PrintAtPosition(test, 40, 7);
 
         Console.ReadKey();
         Console.Clear();
 
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
-        Console.WriteLine("Connecting to data server...");
+        Log("Connecting to data server...");
 
         try {
             connection.Open();
@@ -30,9 +26,8 @@ class Entry {
             Console.WriteLine(e);
         }
 
-
-        Console.WriteLine("Success!");
-        Console.WriteLine("Initializing Master Command");
+        Log("Success!");
+        Log("Initializing Master Command");
         Console.Clear();
 
         var masterCommand = connection.CreateCommand();
@@ -50,12 +45,6 @@ class Entry {
 
             switch(Console.ReadKey().Key) {
                 case System.ConsoleKey.UpArrow:
-                    if(mainMenu.index > 0) {
-                        mainMenu.index--;
-                    }
-                    Console.Clear();
-                    break;
-
                 case System.ConsoleKey.K:
                     if(mainMenu.index > 0) {
                         mainMenu.index--;
@@ -64,12 +53,6 @@ class Entry {
                     break;
 
                 case System.ConsoleKey.DownArrow:
-                    if(mainMenu.index < mainMenu.menuItems.Count-1) {
-                        mainMenu.index++;
-                    }
-                    Console.Clear();
-                    break;
-
                 case System.ConsoleKey.J:
                     if(mainMenu.index < mainMenu.menuItems.Count-1) {
                         mainMenu.index++;
