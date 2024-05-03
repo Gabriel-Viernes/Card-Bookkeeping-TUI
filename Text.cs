@@ -26,6 +26,16 @@ namespace Formatting {
 
     public class Textbox {
 
+        public static void PrintAtPosition(List<string> text, int x, int y) {
+            CursorLeft = x; CursorTop = y;
+
+            for(int i = 0; i < text.Count; i++) {
+                CursorLeft = x;
+                WriteLine(text[i]);
+            }
+
+        }
+
         public static void Print(List<string> text) {
 
             //meant to be usual exit point for textboxes
@@ -55,7 +65,7 @@ namespace Formatting {
 
         }
 
-        public static List<string> Generate(int width, int height, List<string> text, int alignment) {
+        public static List<string> Generate(List<string> text, int width, int height, int alignment) {
 
             if((alignment > 2) || (alignment < 0)) {
                 Exception e = new Exception("Invalid alignment specified. Please choose from a range of 0-2");

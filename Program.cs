@@ -11,6 +11,14 @@ using Formatting;
 
 class Entry {
     static void Main(string[] args) {
+
+        Console.Clear();
+
+        List<string> test = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        test = Textbox.Generate(test, 30, 8, 1);
+        Textbox.PrintAtPosition(test, 40, 7);
+
+        Console.ReadKey();
         Console.Clear();
 
         SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
@@ -128,7 +136,7 @@ namespace CardBookkeepingTUI {
                 displayed.Add(menuItems[i]);
             }
 
-            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, splash, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(splash, 50, 5, 1)));
 
             for(int i = 0; i < displayed.Count; i++) {
                 if(i == index) {
@@ -136,7 +144,7 @@ namespace CardBookkeepingTUI {
                 }
             }
 
-            Textbox.Print(Screen.Center(Textbox.Generate(20, 7, displayed, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(displayed, 20, 7, 1)));
 
             //for(int i = 0; i < menuItems.Count; i++) {
             //    if(i == index) {
@@ -152,7 +160,7 @@ namespace CardBookkeepingTUI {
 
             List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", ""};
             
-            Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
 
             try {
                 await HttpOperations.GetCard(masterCommand, client);
@@ -166,7 +174,7 @@ namespace CardBookkeepingTUI {
         async public static void FindCardMenu(SqliteCommand masterCommand) {
 
             List<string> message = new List<string>() {"", "What card are you looking for?", ""};
-            Textbox.Print(Screen.Center(Textbox.Generate(50, 5, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 5, 1)));
             string input = Textbox.PrintInputBox(30);
 
             CardDataSkeleton data = new CardDataSkeleton();
@@ -201,19 +209,19 @@ namespace CardBookkeepingTUI {
             
             message.Add($"Press any key to continue...");
             message.Add("");
-            Textbox.Print(Screen.Center(Textbox.Generate(40, (message.Count + 2), message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message,40, (message.Count + 2),  1)));
             Console.ReadKey();
         }
 
         async public static void UpdateCardMenu(SqliteCommand masterCommand) {
 
             List<string> message = new List<string>() {"", "What card would you like to update?", "", ""};
-            Textbox.Print(Screen.Center(Textbox.Generate(50, 6, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate( message,50, 6, 1)));
             string cardName = Textbox.PrintInputBox(30);
 
             Console.Clear();
             message[1] = "How many copies do you have now?";
-            Textbox.Print(Screen.Center(Textbox.Generate(50, 6, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 6, 1)));
             string newCopies = Textbox.PrintInputBox(30);
 
             int newCopiesConverted = 0;
@@ -225,7 +233,7 @@ namespace CardBookkeepingTUI {
                 } else {
                     Console.Clear();
                     message[2] = "Invalid characters detected, please only enter numbers";
-                    Textbox.Print(Screen.Center(Textbox.Generate(60, 6, message, 1)));
+                    Textbox.Print(Screen.Center(Textbox.Generate(message, 60, 6, 1)));
                     newCopies = Textbox.PrintInputBox(30);
                 }
             }
@@ -239,14 +247,14 @@ namespace CardBookkeepingTUI {
             Console.Clear();
             message[2] = "";
             message[1] = "Press any key to continue...";
-            Textbox.Print(Screen.Center(Textbox.Generate(50, 6, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 6, 1)));
             Console.ReadKey();
 
         }
 
         async public static void DeleteCardMenu(SqliteCommand masterCommand) {
             List<string> message = new List<string>() { "", "What card would you like to delete?", ""};
-            Textbox.Print(Screen.Center(Textbox.Generate(60, 5, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 60, 5, 1)));
             string cardName = Textbox.PrintInputBox(30);
 
             try {
@@ -257,7 +265,7 @@ namespace CardBookkeepingTUI {
 
             Console.Clear();
             message[1] = "Press any key to continue...";
-            Textbox.Print(Screen.Center(Textbox.Generate(60, 5, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 60, 5, 1)));
             Console.ReadKey();
             return;
         }
@@ -275,7 +283,7 @@ namespace CardBookkeepingTUI {
             while (card.Length == 0) {
                 Console.Clear();
                 message[2] = "Input too short";
-                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+                Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
                 card = Textbox.PrintInputBox(30);
             }
 
@@ -285,14 +293,14 @@ namespace CardBookkeepingTUI {
                 Console.Clear();
                 message[1] = "Card already exists! Please update the card instead";
                 message[2] = "Press any key to continue...";
-                Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+                Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
                 Console.ReadKey();
                 return;
             }
 
             message[1] = "How many copies do you have?";
             Console.Clear();
-            Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
             string copiesRaw = Textbox.PrintInputBox(30);
 
             int copies = 0;
@@ -304,7 +312,7 @@ namespace CardBookkeepingTUI {
                 } else {
                     Console.Clear();
                     message[1] = "Invalid characters detected, please only enter numbers";
-                    Textbox.Print(Screen.Center(Textbox.Generate(100, 6, message, 1)));
+                    Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
                     copiesRaw = Textbox.PrintInputBox(30);
                 }
             }
