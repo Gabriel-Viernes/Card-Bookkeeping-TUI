@@ -14,11 +14,31 @@ class Entry {
     static void Main(string[] args) {
 
 
+        Console.WriteLine("Testing break");
         Console.ReadKey();
         Console.Clear();
 
-        SqliteConnection connection = new SqliteConnection("Data Source=yugioh.db");
-        Log("Connecting to data server...");
+        bool log = true;
+        string currentDb = "yugioh.db";
+
+        try {
+            Directory.CreateDirectory("./logs");
+        } catch(Exception e) {
+            Console.WriteLine(e);
+        }
+
+        try {
+            Directory.CreateDirectory("./config");
+            Directory.CreateDirectory("./db");
+        } catch(Exception e) {
+            Log($"{e}", log);
+        }
+
+
+
+
+        SqliteConnection connection = new SqliteConnection($"Data Source=./db/{currentDb}");
+        Log("Connecting to data server...", log);
 
         try {
             connection.Open();
@@ -26,9 +46,8 @@ class Entry {
             Console.WriteLine(e);
         }
 
-        Log("Success!");
-        Log("Initializing Master Command");
-        Console.Clear();
+        Log("Success!", log);
+        Log("Initializing Master Command", log);
 
         var masterCommand = connection.CreateCommand();
         SqlOperations.DatabaseCheck(masterCommand);
@@ -192,7 +211,7 @@ namespace CardBookkeepingTUI {
             
             message.Add($"Press any key to continue...");
             message.Add("");
-            Textbox.Print(Screen.Center(Textbox.Generate(message,40, (message.Count + 2),  1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 40, (message.Count + 2),  1)));
             Console.ReadKey();
         }
 
@@ -288,6 +307,7 @@ namespace CardBookkeepingTUI {
 
             int copies = 0;
             bool validInt = false;
+
             while(validInt == false) {
                 if(Information.IsNumeric(copiesRaw) == true) {
                     copies = Convert.ToInt32(copiesRaw);
@@ -299,25 +319,25 @@ namespace CardBookkeepingTUI {
                     copiesRaw = Textbox.PrintInputBox(30);
                 }
             }
+
             card = card.Replace(" ","%20");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             try {
                 string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
-                CardSkeleton unformatted = JsonSerializer.Deserialize<CardSkeleton>(response);
-                var restringified = JsonSerializer.Serialize(unformatted.data[0]);
+                JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
+                var dataArray = unformatted.RootElement.GetProperty("data");
+                var restringified = JsonSerializer.Serialize(dataArray[0]);
+
                 CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                 data = newCard;
                 data.copies = copies;
                 SqlOperations.InsertCard(masterCommand, data);                               
+
             } catch(Exception e) {
                 Console.WriteLine(e);
             }
         }
-    }
-
-    public class CardSkeleton {
-        public object[] data { get; set; }
     }
 
     public class CardDataSkeleton {

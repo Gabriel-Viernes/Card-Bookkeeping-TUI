@@ -142,12 +142,12 @@ namespace Utils {
     }
 
     class LogUtils {
-        public static void Log(string input) {
-            try {
-                Directory.CreateDirectory("./logs");
-            } catch(Exception e) {
-                Console.WriteLine(e);
+
+        public static void Log(string input, bool allowed) {
+            if(allowed == false) {
+                return;
             }
+            
             using (StreamWriter writer = File.AppendText("./logs/logs.txt")) {
                 writer.WriteLine($"{DateTime.Now}: {input}");
             }
