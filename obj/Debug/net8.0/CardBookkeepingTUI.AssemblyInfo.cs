@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CardBookkeepingTUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83a0bb533610b3cb011e5d70dcd0cc9ec2a32e53")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+355d665fbc0f0441e9cb9779ae262c3d423a2aba")]
 [assembly: System.Reflection.AssemblyProductAttribute("CardBookkeepingTUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CardBookkeepingTUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

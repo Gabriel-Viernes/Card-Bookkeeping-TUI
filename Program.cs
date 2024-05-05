@@ -1,6 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
@@ -18,40 +16,42 @@ class Entry {
         Console.ReadKey();
         Console.Clear();
 
-        bool log = true;
+        bool doILog = true;
         string currentDb = "yugioh.db";
+        string connectionString = $"Data Source=./db/{currentDb}";
 
         try {
             Directory.CreateDirectory("./logs");
         } catch(Exception e) {
-            Console.WriteLine(e);
+            Log($"{e}", doILog);
         }
 
         try {
             Directory.CreateDirectory("./config");
             Directory.CreateDirectory("./db");
         } catch(Exception e) {
-            Log($"{e}", log);
+            Log($"{e}", doILog);
         }
 
 
 
 
-        SqliteConnection connection = new SqliteConnection($"Data Source=./db/{currentDb}");
-        Log("Connecting to data server...", log);
+        //SqliteConnection connection = new SqliteConnection($"Data Source=./db/{currentDb}");
+        //Log("Connecting to data server...", log);
 
-        try {
-            connection.Open();
-        } catch(Exception e) {
-            Console.WriteLine(e);
-        }
+        //try {
+        //    connection.Open();
+        //} catch(Exception e) {
+        //    Console.WriteLine(e);
+        //}
 
-        Log("Success!", log);
-        Log("Initializing Master Command", log);
 
-        var masterCommand = connection.CreateCommand();
-        SqlOperations.DatabaseCheck(masterCommand);
-        using HttpClient client = new();
+        Log("Success!", doILog);
+        Log("Initializing Master Command", doILog);
+
+        //var masterCommand = connection.CreateCommand();
+        SqlOperations.DatabaseCheck(connectionString);
+        //using HttpClient client = new();
 
         bool quit = false;
         List<string> mainMenuOptions = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
@@ -83,22 +83,22 @@ class Entry {
                     switch(mainMenu.index) {
                         case 0:
                             Console.Clear();
-                            Menu.AddCardMenu(client, masterCommand);
+                            Menu.AddCardMenu(connectionString);
                             break;
 
                         case 1:
                             Console.Clear();
-                            Menu.FindCardMenu(masterCommand);
+                            Menu.FindCardMenu(connectionString);
                             break;
 
                         case 2:
                             Console.Clear();
-                            Menu.UpdateCardMenu(masterCommand);
+                            Menu.UpdateCardMenu(connectionString);
                             break;
 
                         case 3:
                             Console.Clear();
-                            Menu.DeleteCardMenu(masterCommand);
+                            Menu.DeleteCardMenu(connectionString);
                             break;
 
                         case 4:
@@ -158,22 +158,22 @@ namespace CardBookkeepingTUI {
             return;
         }       
 
-        async public static void AddCardMenu(HttpClient client, SqliteCommand masterCommand) {
+        async public static void AddCardMenu(string connectionString) {
 
             List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", ""};
             
             Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
 
             try {
-                await HttpOperations.GetCard(masterCommand, client);
+                await HttpOperations.GetCard(connectionString);
             } catch (Exception e) {
                 Console.WriteLine("An error occurred");
                 Console.WriteLine(e);
-                AddCardMenu(client, masterCommand);
+                AddCardMenu(connectionString);
             }
         }
 
-        async public static void FindCardMenu(SqliteCommand masterCommand) {
+        async public static void FindCardMenu(string connectionString) {
 
             List<string> message = new List<string>() {"", "What card are you looking for?", ""};
             Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 5, 1)));
@@ -181,12 +181,23 @@ namespace CardBookkeepingTUI {
 
             CardDataSkeleton data = new CardDataSkeleton();
 
+            if(SqlOperations.CheckForExistingCard(connectionString, input) == false) {
+                Console.Clear();
+                message[1] = "Card not found! Please make sure that you entered the card's name correctly";
+                message[2] = "Press any key to continue...";
+                message.Add("");
+                Textbox.Print(Screen.Center(Textbox.Generate(message ,1)));
+                Console.ReadKey();
+                return;
+            }
+
             try {
-                data = SqlOperations.FindExistingCard(masterCommand, input);
+                data = SqlOperations.FindExistingCard(connectionString, input);
             } catch (Exception e) {
                 Console.WriteLine(e);
                 return;
             }
+
 
             Console.Clear();
             message.Clear();
@@ -215,7 +226,7 @@ namespace CardBookkeepingTUI {
             Console.ReadKey();
         }
 
-        async public static void UpdateCardMenu(SqliteCommand masterCommand) {
+        async public static void UpdateCardMenu(string connectionString) {
 
             List<string> message = new List<string>() {"", "What card would you like to update?", "", ""};
             Textbox.Print(Screen.Center(Textbox.Generate( message,50, 6, 1)));
@@ -241,7 +252,7 @@ namespace CardBookkeepingTUI {
             }
 
             try {
-                SqlOperations.UpdateExistingCard(masterCommand, cardName, newCopiesConverted);
+                SqlOperations.UpdateExistingCard(connectionString, cardName, newCopiesConverted);
             } catch(Exception e) {
                 Console.WriteLine(e);
             }
@@ -254,13 +265,13 @@ namespace CardBookkeepingTUI {
 
         }
 
-        async public static void DeleteCardMenu(SqliteCommand masterCommand) {
+        async public static void DeleteCardMenu(string connectionString) {
             List<string> message = new List<string>() { "", "What card would you like to delete?", ""};
             Textbox.Print(Screen.Center(Textbox.Generate(message, 60, 5, 1)));
             string cardName = Textbox.PrintInputBox(30);
 
             try {
-                SqlOperations.DeleteExistingCard(masterCommand, cardName);
+                SqlOperations.DeleteExistingCard(connectionString, cardName);
             } catch (Exception e) {
                 Console.WriteLine(e);
             }
@@ -274,7 +285,8 @@ namespace CardBookkeepingTUI {
     }
 
     public class HttpOperations {
-        public static async Task GetCard(SqliteCommand masterCommand, HttpClient client) {
+
+        public static async Task GetCard(string connectionString) {
 
             CardDataSkeleton data = new CardDataSkeleton();
 
@@ -291,7 +303,7 @@ namespace CardBookkeepingTUI {
 
             message[2] = "";
 
-            if(SqlOperations.CheckForExistingCard(masterCommand, card) == true) {
+            if(SqlOperations.CheckForExistingCard(connectionString, card) == true) {
                 Console.Clear();
                 message[1] = "Card already exists! Please update the card instead";
                 message[2] = "Press any key to continue...";
@@ -321,22 +333,28 @@ namespace CardBookkeepingTUI {
             }
 
             card = card.Replace(" ","%20");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            try {
-                string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
-                JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
-                var dataArray = unformatted.RootElement.GetProperty("data");
-                var restringified = JsonSerializer.Serialize(dataArray[0]);
 
-                CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
-                data = newCard;
-                data.copies = copies;
-                SqlOperations.InsertCard(masterCommand, data);                               
+            using(HttpClient client = new HttpClient()) {
 
-            } catch(Exception e) {
-                Console.WriteLine(e);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                try {
+                    string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
+                    JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
+                    var dataArray = unformatted.RootElement.GetProperty("data");
+                    var restringified = JsonSerializer.Serialize(dataArray[0]);
+
+                    CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
+                    data = newCard;
+                    data.copies = copies;
+                    SqlOperations.InsertCard(connectionString, data);                               
+
+                } catch(Exception e) {
+                    Log($"{e}", true);
+                }
+
             }
+
         }
     }
 

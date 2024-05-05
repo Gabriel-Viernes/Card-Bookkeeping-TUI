@@ -26,8 +26,6 @@ namespace Formatting {
 
     public class Textbox {
 
-        
-
         public static void Print(List<string> text) {
 
             //meant to be usual exit point for textboxes
@@ -67,6 +65,21 @@ namespace Formatting {
 
         }
 
+        public static List<string> Generate(List<string> text, int alignment) {
+
+            int maxWidth = 0;
+            int height = text.Count+2;
+
+            for(int i = 0; i < text.Count; i++) {
+                if(text[i].Length > maxWidth) {
+                    maxWidth = text[i].Length;
+                }
+            }
+            maxWidth += 2;
+
+            return Generate(text, maxWidth, height, alignment);
+        }
+
         public static List<string> Generate(List<string> text, int width, int height, int alignment) {
 
             if((alignment > 2) || (alignment < 0)) {
@@ -81,6 +94,10 @@ namespace Formatting {
             for(int i = 0; i < text.Count; i++) {
                 if(text[i].Length > width) {
                     Exception e = new Exception("Text is too long for given width");
+                    throw e;
+                }
+                if(text[i].Length > WindowWidth) {
+                    Exception e = new Exception("Text is too long for current window");
                     throw e;
                 }
             }           
