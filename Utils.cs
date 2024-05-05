@@ -4,6 +4,7 @@ using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
 using System.Reflection;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Utils {
     class SqlOperations {
@@ -139,52 +140,19 @@ namespace Utils {
             return output;
         }
     }
+
+    class LogUtils {
+
+        public static void Log(string input, bool allowed) {
+            if(allowed == false) {
+                return;
+            }
+            
+            using (StreamWriter writer = File.AppendText("./logs/logs.txt")) {
+                writer.WriteLine($"{DateTime.Now}: {input}");
+            }
+        }
+    }
 }
 
-//SqliteCommand myCommand = new MySqlCommand();
-//                myCommand.Connection = myConnection;
-//                myCommand.CommandText = @"
-//                    CREATE TABLE card (
-//                        ID int NOT NULL AUTO_INCREMENT,
-//                        card_id int NOT NULL,
-//                        type varchar(255),
-//                        frametype varchar(255),
-//                        description varchar(255),
-//                        atk int,
-//                        def int,
-//                        level int,
-//                        race varchar(255),
-//                        attribute varchar(255),
-//                        copies int,
-//                        PRIMARY KEY (ID)
-//                );";
-//                MySqlDataReader rdr = myCommand.ExecuteReader();
-//                while(rdr.Read()) {
-//                    Console.WriteLine(rdr[0]);
-//                }
-//                rdr.Close();
-
-
-            //masterCommand.Parameters.Add("@card_id", SqliteType.Integer);
-            //masterCommand.Parameters["@card_id"].Value = input.id;
-            //masterCommand.Parameters.Add("@name", SqliteType.Text);
-            //masterCommand.Parameters["@name"].Value = input.name;
-            //masterCommand.Parameters.Add("@type", SqliteType.Text);
-            //masterCommand.Parameters["@type"].Value = input.type;
-            //masterCommand.Parameters.Add("@frameType", SqliteType.Text);
-            //masterCommand.Parameters["@frameType"].Value = input.frameType;
-            //masterCommand.Parameters.Add("@description", SqliteType.Text);
-            //masterCommand.Parameters["@description"].Value = input.desc;
-            //masterCommand.Parameters.Add("@atk", SqliteType.Integer);
-            //masterCommand.Parameters["@atk"].Value = input.atk;
-            //masterCommand.Parameters.Add("@def", SqliteType.Integer);
-            //masterCommand.Parameters["@def"].Value = input.def;
-            //masterCommand.Parameters.Add("@level", SqliteType.Integer);
-            //masterCommand.Parameters["@level"].Value = input.level;
-            //masterCommand.Parameters.Add("@race", SqliteType.Text);
-            //masterCommand.Parameters["@race"].Value = input.race;
-            //masterCommand.Parameters.Add("@attribute", SqliteType.Text);
-            //masterCommand.Parameters["@attribute"].Value = input.attribute;
-            //masterCommand.Parameters.Add("@copies", SqliteType.Integer);
-            //masterCommand.Parameters["@copies"].Value = input.copies;
 
