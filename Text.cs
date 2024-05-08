@@ -1,5 +1,6 @@
-using System;
 using static System.Console;
+using CardBookkeepingTUI;
+using Utils;
 
 
 namespace Formatting {
@@ -17,11 +18,8 @@ namespace Formatting {
                     text[i] = " " + text[i];
                 }
             }
-
             return text;
         }
-
-
     }
 
     public class Textbox {
@@ -63,6 +61,13 @@ namespace Formatting {
             CursorVisible = false;
             return input;
 
+        }
+
+        public static List<CardDataSkeleton> GenerateTable(List<CardDataSkeleton> rows, int width, int cellWidth, int alignment) {
+            for(int i = 0; i < rows.Count; i++) {
+                
+            }
+            return rows;
         }
 
         public static List<string> GenerateMenu(List<string> text, int index, int width, int alignment) {
@@ -124,7 +129,6 @@ namespace Formatting {
                 }
             }
 
-            WriteLine(text.Count);
 
             if(text.Count > (height - 2)) {
                 Exception e = new Exception("Too many lines of text for given height");

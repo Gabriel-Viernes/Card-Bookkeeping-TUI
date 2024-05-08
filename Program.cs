@@ -33,8 +33,6 @@ class Entry {
             Log($"{e}", doILog);
         }
 
-        Log("Success!", doILog);
-        Log("Initializing Master Command", doILog);
 
         SqlOperations.DatabaseCheck(connectionString);
 
@@ -151,17 +149,17 @@ namespace CardBookkeepingTUI {
             Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 5, 1)));
             string input = Textbox.PrintInputBox(30);
 
-            CardDataSkeleton data = new CardDataSkeleton();
+            List<CardDataSkeleton> data = new List<CardDataSkeleton>();
 
-            if(SqlOperations.CheckForExistingCard(connectionString, input) == false) {
-                Console.Clear();
-                message[1] = "Card not found! Please make sure that you entered the card's name correctly";
-                message[2] = "Press any key to continue...";
-                message.Add("");
-                Textbox.Print(Screen.Center(Textbox.Generate(message ,1)));
-                Console.ReadKey();
-                return;
-            }
+            //if(SqlOperations.CheckForExistingCard(connectionString, input) == false) {
+            //    Console.Clear();
+            //    message[1] = "Card not found! Please make sure that you entered the card's name correctly";
+            //    message[2] = "Press any key to continue...";
+            //    message.Add("");
+            //    Textbox.Print(Screen.Center(Textbox.Generate(message ,1)));
+            //    Console.ReadKey();
+            //    return;
+            //}
 
             try {
                 data = SqlOperations.FindExistingCard(connectionString, input);
@@ -173,27 +171,33 @@ namespace CardBookkeepingTUI {
 
             Console.Clear();
             message.Clear();
-            message.Add("");
-            message.Add($"You have {data.copies} copies of {data.name}");
-            switch(data.type) {
-                case "Spell Card":
-                    message.Add($"Type: {data.type}");
-                    message.Add($"{data.desc}");
-                    break;
-                case "Trap Card":
-                    message.Add($"Type: {data.type}");
-                    message.Add($"{data.desc}");
-                    break;
-                default:
-                    message.Add($"Type: {data.type}");
-                    message.Add($"|ATK:    |DEF:    |LEVEL:  |");
-                    message.Add($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
-                    message.Add($"{data.desc}");
-                    break;
+
+            Console.WriteLine($"{data.Count}");
+            for(int i = 0; i < data.Count; i++) {
+                Console.WriteLine(data[i].name);
             }
-            
-            message.Add($"Press any key to continue...");
-            message.Add("");
+            Console.ReadKey();
+           // message.Add("");
+           // message.Add($"You have {data.copies} copies of {data.name}");
+           // switch(data.type) {
+           //     case "Spell Card":
+           //         message.Add($"Type: {data.type}");
+           //         message.Add($"{data.desc}");
+           //         break;
+           //     case "Trap Card":
+           //         message.Add($"Type: {data.type}");
+           //         message.Add($"{data.desc}");
+           //         break;
+           //     default:
+           //         message.Add($"Type: {data.type}");
+           //         message.Add($"|ATK:    |DEF:    |LEVEL:  |");
+           //         message.Add($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
+           //         message.Add($"{data.desc}");
+           //         break;
+           // }
+           // 
+           // message.Add($"Press any key to continue...");
+           // message.Add("");
             Textbox.Print(Screen.Center(Textbox.Generate(message, 40, 25, 1)));
             Console.ReadKey();
         }
@@ -312,6 +316,7 @@ namespace CardBookkeepingTUI {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 try {
                     string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
+                    //api response is data:{ 0: {(whatever key/value)}};
                     JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
                     var dataArray = unformatted.RootElement.GetProperty("data");
                     var restringified = JsonSerializer.Serialize(dataArray[0]);
@@ -319,7 +324,11 @@ namespace CardBookkeepingTUI {
                     CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
                     data = newCard;
                     data.copies = copies;
-                    SqlOperations.InsertCard(connectionString, data);                               
+                    List<string> test = StringUtils.ConvertCardDataSkeletonToList(data);
+                    for(int i = 0; i < test.Count; i++) {
+                        Log($"{test[i]}", true);
+                    }
+                    SqlOperations.InsertCard(connectionString, test);                               
 
                 } catch(Exception e) {
                     Log($"{e}", true);

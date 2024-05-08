@@ -401,3 +401,285 @@
 5/7/2024 11:31:47 PM: Initializing Master Command
 5/7/2024 11:32:15 PM: Success!
 5/7/2024 11:32:15 PM: Initializing Master Command
+5/7/2024 11:36:39 PM: Success!
+5/7/2024 11:36:39 PM: Initializing Master Command
+5/7/2024 11:37:03 PM: Success!
+5/7/2024 11:37:03 PM: Initializing Master Command
+5/7/2024 11:37:43 PM: Success!
+5/7/2024 11:37:43 PM: Initializing Master Command
+5/8/2024 9:24:26 AM: Success!
+5/8/2024 9:24:26 AM: Initializing Master Command
+5/8/2024 9:25:06 AM: Success!
+5/8/2024 9:25:06 AM: Initializing Master Command
+5/8/2024 9:25:44 AM: Success!
+5/8/2024 9:25:44 AM: Initializing Master Command
+5/8/2024 9:26:18 AM: Success!
+5/8/2024 9:26:18 AM: Initializing Master Command
+5/8/2024 9:27:44 AM: Success!
+5/8/2024 9:27:44 AM: Initializing Master Command
+5/8/2024 9:28:30 AM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/8/2024 9:41:31 AM: Success!
+5/8/2024 9:41:31 AM: Initializing Master Command
+5/8/2024 9:41:39 AM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/8/2024 9:41:39 AM: System.InvalidOperationException: No data exists for the row/column.
+   at Microsoft.Data.Sqlite.SqliteDataReader.GetInt32(Int32 ordinal)
+   at Utils.SqlOperations.InsertCard(String connectionString, CardDataSkeleton input) in /home/notsito/documents/Card-Bookkeeping-TUI/Utils.cs:line 139
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 328
+5/8/2024 10:18:16 AM: Success!
+5/8/2024 10:18:16 AM: Initializing Master Command
+5/8/2024 10:18:32 AM: |44095762|Mirror Force|Trap Card|trap|When an opponent's monster declares an attack: Destroy all your opponent's Attack Position monsters.||||Normal||3
+5/8/2024 10:21:18 AM: Success!
+5/8/2024 10:21:18 AM: Initializing Master Command
+5/8/2024 10:21:37 AM: System.Nullable`1[System.Int32] id
+5/8/2024 10:21:37 AM: System.String name
+5/8/2024 10:21:37 AM: System.String type
+5/8/2024 10:21:37 AM: System.String frameType
+5/8/2024 10:21:37 AM: System.String desc
+5/8/2024 10:21:37 AM: System.Nullable`1[System.Int32] atk
+5/8/2024 10:21:37 AM: System.Nullable`1[System.Int32] def
+5/8/2024 10:21:37 AM: System.Nullable`1[System.Int32] level
+5/8/2024 10:21:37 AM: System.String race
+5/8/2024 10:21:37 AM: System.String attribute
+5/8/2024 10:21:37 AM: System.Nullable`1[System.Int32] copies
+5/8/2024 10:21:37 AM: |44095762|Mirror Force|Trap Card|trap|When an opponent's monster declares an attack: Destroy all your opponent's Attack Position monsters.||||Normal||3
+5/8/2024 1:11:44 PM: Success!
+5/8/2024 1:11:44 PM: Initializing Master Command
+5/8/2024 1:11:51 PM: System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 320
+5/8/2024 1:12:00 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||4
+5/8/2024 1:12:29 PM: Success!
+5/8/2024 1:12:29 PM: Initializing Master Command
+5/8/2024 1:12:36 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||4
+5/8/2024 1:12:51 PM: Success!
+5/8/2024 1:12:51 PM: Initializing Master Command
+5/8/2024 1:13:34 PM: Success!
+5/8/2024 1:13:34 PM: Initializing Master Command
+5/8/2024 1:13:43 PM: System.Text.Json.JsonException: The JSON value could not be converted to System.String. Path: $.atk | LineNumber: 0 | BytePositionInLine: 197.
+ ---> System.InvalidOperationException: Cannot get the value of a token type 'Number' as a string.
+   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ExpectedString(JsonTokenType tokenType)
+   at System.Text.Json.Utf8JsonReader.GetString()
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, Utf8JsonReader& reader, Exception ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 326
+5/8/2024 1:16:11 PM: Success!
+5/8/2024 1:16:11 PM: Initializing Master Command
+5/8/2024 1:17:17 PM: Success!
+5/8/2024 1:17:17 PM: Initializing Master Command
+5/8/2024 1:17:22 PM: Success!
+5/8/2024 1:17:22 PM: Initializing Master Command
+5/8/2024 1:46:07 PM: Success!
+5/8/2024 1:46:07 PM: Initializing Master Command
+5/8/2024 1:46:15 PM: CardBookkeepingTUI.CardDataSkeleton
+5/8/2024 1:46:15 PM: |77585513|Jinzo|Effect Monster|effect|Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.|2400|1500|6|Machine|DARK|1
+5/8/2024 1:56:20 PM: 77585513
+5/8/2024 1:56:20 PM: Jinzo
+5/8/2024 1:56:20 PM: Effect Monster
+5/8/2024 1:56:20 PM: effect
+5/8/2024 1:56:20 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 1:56:20 PM: 2400
+5/8/2024 1:56:20 PM: 1500
+5/8/2024 1:56:20 PM: Machine
+5/8/2024 1:56:20 PM: DARK
+5/8/2024 1:56:20 PM: 1
+5/8/2024 1:56:20 PM: |77585513|Jinzo|Effect Monster|effect|Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.|2400|1500|6|Machine|DARK|1
+5/8/2024 1:56:30 PM: 53129443
+5/8/2024 1:56:30 PM: Dark Hole
+5/8/2024 1:56:30 PM: Spell Card
+5/8/2024 1:56:30 PM: spell
+5/8/2024 1:56:30 PM: Destroy all monsters on the field.
+5/8/2024 1:56:30 PM: 
+5/8/2024 1:56:30 PM: 
+5/8/2024 1:56:30 PM: Normal
+5/8/2024 1:56:30 PM: 
+5/8/2024 1:56:30 PM: 1
+5/8/2024 1:56:30 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 1:57:49 PM: 53129443
+5/8/2024 1:57:49 PM: Dark Hole
+5/8/2024 1:57:49 PM: Spell Card
+5/8/2024 1:57:49 PM: spell
+5/8/2024 1:57:49 PM: Destroy all monsters on the field.
+5/8/2024 1:57:49 PM: 
+5/8/2024 1:57:49 PM: 
+5/8/2024 1:57:49 PM: Normal
+5/8/2024 1:57:49 PM: n/a
+5/8/2024 1:57:49 PM: 1
+5/8/2024 1:57:49 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 2:01:36 PM: 2400
+5/8/2024 2:01:36 PM: 77585513
+5/8/2024 2:01:36 PM: Jinzo
+5/8/2024 2:01:36 PM: Effect Monster
+5/8/2024 2:01:36 PM: effect
+5/8/2024 2:01:36 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:01:36 PM: 2400
+5/8/2024 2:01:36 PM: 1500
+5/8/2024 2:01:36 PM: Machine
+5/8/2024 2:01:36 PM: DARK
+5/8/2024 2:01:36 PM: 1
+5/8/2024 2:01:36 PM: |77585513|Jinzo|Effect Monster|effect|Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.|2400|1500|6|Machine|DARK|1
+5/8/2024 2:01:51 PM: 
+5/8/2024 2:01:51 PM: 53129443
+5/8/2024 2:01:51 PM: Dark Hole
+5/8/2024 2:01:51 PM: Spell Card
+5/8/2024 2:01:51 PM: spell
+5/8/2024 2:01:51 PM: Destroy all monsters on the field.
+5/8/2024 2:01:51 PM: 
+5/8/2024 2:01:51 PM: 
+5/8/2024 2:01:51 PM: Normal
+5/8/2024 2:01:51 PM: n/a
+5/8/2024 2:01:51 PM: 1
+5/8/2024 2:01:51 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 2:08:10 PM: 53129443
+5/8/2024 2:08:10 PM: Dark Hole
+5/8/2024 2:08:10 PM: Spell Card
+5/8/2024 2:08:10 PM: spell
+5/8/2024 2:08:10 PM: Destroy all monsters on the field.
+5/8/2024 2:08:10 PM: 
+5/8/2024 2:08:10 PM: 
+5/8/2024 2:08:10 PM: Normal
+5/8/2024 2:08:10 PM: n/a
+5/8/2024 2:08:10 PM: 1
+5/8/2024 2:08:10 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 2:13:00 PM: 53129443
+5/8/2024 2:13:00 PM: Dark Hole
+5/8/2024 2:13:00 PM: Spell Card
+5/8/2024 2:13:00 PM: spell
+5/8/2024 2:13:00 PM: Destroy all monsters on the field.
+5/8/2024 2:13:00 PM: 
+5/8/2024 2:13:00 PM: 
+5/8/2024 2:13:00 PM: Normal
+5/8/2024 2:13:00 PM: n/a
+5/8/2024 2:13:00 PM: 1
+5/8/2024 2:13:01 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 2:14:38 PM: 53129443
+5/8/2024 2:14:38 PM: Dark Hole
+5/8/2024 2:14:38 PM: Spell Card
+5/8/2024 2:14:38 PM: spell
+5/8/2024 2:14:38 PM: Destroy all monsters on the field.
+5/8/2024 2:14:38 PM: n/a
+5/8/2024 2:14:38 PM: n/a
+5/8/2024 2:14:38 PM: Normal
+5/8/2024 2:14:38 PM: n/a
+5/8/2024 2:14:38 PM: 1
+5/8/2024 2:14:38 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 2:16:13 PM: 53129443
+5/8/2024 2:16:13 PM: dark hole
+5/8/2024 2:16:13 PM: Spell Card
+5/8/2024 2:16:13 PM: spell
+5/8/2024 2:16:13 PM: Destroy all monsters on the field.
+5/8/2024 2:16:13 PM: n/a
+5/8/2024 2:16:13 PM: n/a
+5/8/2024 2:16:13 PM: Normal
+5/8/2024 2:16:13 PM: n/a
+5/8/2024 2:16:13 PM: 1
+5/8/2024 2:16:13 PM: |53129443|Dark Hole|Spell Card|spell|Destroy all monsters on the field.||||Normal||1
+5/8/2024 2:21:31 PM: 77585513
+5/8/2024 2:21:31 PM: jinzo
+5/8/2024 2:21:31 PM: Effect Monster
+5/8/2024 2:21:31 PM: effect
+5/8/2024 2:21:31 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:21:31 PM: 2400
+5/8/2024 2:21:31 PM: 1500
+5/8/2024 2:21:31 PM: Machine
+5/8/2024 2:21:31 PM: DARK
+5/8/2024 2:21:31 PM: 1
+5/8/2024 2:21:31 PM: System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at Utils.SqlOperations.InsertCard(String connectionString, List`1 input) in /home/notsito/documents/Card-Bookkeeping-TUI/Utils.cs:line 102
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 331
+5/8/2024 2:23:13 PM: 77585513
+5/8/2024 2:23:13 PM: jinzo
+5/8/2024 2:23:13 PM: Effect Monster
+5/8/2024 2:23:13 PM: effect
+5/8/2024 2:23:13 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:23:13 PM: 2400
+5/8/2024 2:23:13 PM: 1500
+5/8/2024 2:23:13 PM: Machine
+5/8/2024 2:23:13 PM: DARK
+5/8/2024 2:23:13 PM: 1
+5/8/2024 2:23:13 PM: System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at Utils.SqlOperations.InsertCard(String connectionString, List`1 input) in /home/notsito/documents/Card-Bookkeeping-TUI/Utils.cs:line 102
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 331
+5/8/2024 2:24:37 PM: 77585513
+5/8/2024 2:24:37 PM: jinzo
+5/8/2024 2:24:37 PM: Effect Monster
+5/8/2024 2:24:37 PM: effect
+5/8/2024 2:24:37 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:24:37 PM: 2400
+5/8/2024 2:24:37 PM: 1500
+5/8/2024 2:24:37 PM: Machine
+5/8/2024 2:24:37 PM: DARK
+5/8/2024 2:24:37 PM: 1
+5/8/2024 2:24:37 PM: System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at Utils.SqlOperations.InsertCard(String connectionString, List`1 input) in /home/notsito/documents/Card-Bookkeeping-TUI/Utils.cs:line 102
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 331
+5/8/2024 2:25:25 PM: 77585513
+5/8/2024 2:25:25 PM: jinzo
+5/8/2024 2:25:25 PM: Effect Monster
+5/8/2024 2:25:25 PM: effect
+5/8/2024 2:25:25 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:25:25 PM: 2400
+5/8/2024 2:25:25 PM: 1500
+5/8/2024 2:25:25 PM: Machine
+5/8/2024 2:25:25 PM: DARK
+5/8/2024 2:25:25 PM: 1
+5/8/2024 2:25:25 PM: 10
+5/8/2024 2:25:25 PM: System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at Utils.SqlOperations.InsertCard(String connectionString, List`1 input) in /home/notsito/documents/Card-Bookkeeping-TUI/Utils.cs:line 103
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 331
+5/8/2024 2:27:49 PM: 77585513
+5/8/2024 2:27:49 PM: jinzo
+5/8/2024 2:27:49 PM: Effect Monster
+5/8/2024 2:27:49 PM: effect
+5/8/2024 2:27:49 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:27:49 PM: 2400
+5/8/2024 2:27:49 PM: 1500
+5/8/2024 2:27:49 PM: 6
+5/8/2024 2:27:49 PM: Machine
+5/8/2024 2:27:49 PM: DARK
+5/8/2024 2:27:49 PM: 1
+5/8/2024 2:27:49 PM: 11
+5/8/2024 2:27:49 PM: Exception e
+5/8/2024 2:28:37 PM: 77585513
+5/8/2024 2:28:37 PM: jinzo
+5/8/2024 2:28:37 PM: Effect Monster
+5/8/2024 2:28:37 PM: effect
+5/8/2024 2:28:37 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:28:37 PM: 2400
+5/8/2024 2:28:37 PM: 1500
+5/8/2024 2:28:37 PM: 6
+5/8/2024 2:28:37 PM: Machine
+5/8/2024 2:28:37 PM: DARK
+5/8/2024 2:28:37 PM: 1
+5/8/2024 2:28:37 PM: 11
+5/8/2024 2:28:37 PM: Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'near "Monster": syntax error'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader()
+   at Utils.SqlOperations.InsertCard(String connectionString, List`1 input) in /home/notsito/documents/Card-Bookkeeping-TUI/Utils.cs:line 150
+5/8/2024 2:31:21 PM: 77585513
+5/8/2024 2:31:21 PM: jinzo
+5/8/2024 2:31:21 PM: Effect Monster
+5/8/2024 2:31:21 PM: effect
+5/8/2024 2:31:21 PM: Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.
+5/8/2024 2:31:21 PM: 2400
+5/8/2024 2:31:21 PM: 1500
+5/8/2024 2:31:21 PM: 6
+5/8/2024 2:31:21 PM: Machine
+5/8/2024 2:31:21 PM: DARK
+5/8/2024 2:31:21 PM: 1
+5/8/2024 2:31:21 PM: 11
