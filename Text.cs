@@ -65,17 +65,42 @@ namespace Formatting {
 
         }
 
+        public static List<string> GenerateMenu(List<string> text, int index, int width, int alignment) {
+            List<string> modified = new List<string>();
+            for(int i = 0; i < text.Count; i++) {
+               if(i == index) {
+                   modified.Add($"[[{text[i]}]]");
+               } else {
+                   modified.Add(text[i]);
+               } 
+            }
+
+            return Generate(modified, width, modified.Count+2, alignment);
+        }
+
         public static List<string> Generate(List<string> text, int alignment) {
 
             int maxWidth = 0;
-            int height = text.Count+2;
 
             for(int i = 0; i < text.Count; i++) {
-                if(text[i].Length > maxWidth) {
+                if(text[i].Length > WindowWidth) {
+                    string cut = text[i].Substring(WindowWidth-3);
+                    text[i] = text[i].Remove(WindowWidth-3);
+                    text[i] = text[i] + "-";
+                    List<string> temp = text.Slice(i+1, (text.Count-i-1));
+                    text.RemoveRange(i+1, (text.Count-i-1));
+
+                    text.Add(cut);
+                    text.AddRange(temp);
                     maxWidth = text[i].Length;
-                }
+
+                } else if(text[i].Length > maxWidth) {
+                    maxWidth = text[i].Length;
+                } 
+
             }
             maxWidth += 2;
+            int height = text.Count+2;
 
             return Generate(text, maxWidth, height, alignment);
         }
@@ -86,24 +111,43 @@ namespace Formatting {
                 Exception e = new Exception("Invalid alignment specified. Please choose from a range of 0-2");
             }
 
-             if(text.Count > (height - 2)) {
-                Exception e = new Exception("Too many lines of text for given height");
-                throw e;
-            }
-
             for(int i = 0; i < text.Count; i++) {
                 if(text[i].Length > width) {
-                    Exception e = new Exception("Text is too long for given width");
-                    throw e;
+                    string cut = text[i].Substring(width-3);
+                    text[i] = text[i].Remove(width-3);
+                    text[i] = text[i] + "-";
+                    List<string> temp = text.Slice(i+1, (text.Count-i-1));
+                    text.RemoveRange(i+1, (text.Count-i-1));
+
+                    text.Add(cut);
+                    text.AddRange(temp);
                 }
-                if(text[i].Length > WindowWidth) {
-                    Exception e = new Exception("Text is too long for current window");
-                    throw e;
-                }
-            }           
+            }
+
+            WriteLine(text.Count);
+
+            if(text.Count > (height - 2)) {
+                Exception e = new Exception("Too many lines of text for given height");
+                throw e;
+            } else if(text.Count > WindowHeight) {
+                Exception e = new Exception("Textbox too tall for current window height");
+                throw e; 
+            }
+
+//            for(int i = 0; i < text.Count; i++) {
+//                if(text[i].Length > width) {
+//                    Exception e = new Exception("Text is too long for given width");
+//                    throw e;
+//                }
+//                if(text[i].Length > WindowWidth) {
+//                    Exception e = new Exception("Text is too long for current window");
+//                    throw e;
+//                }
+//            }           
 
             if(text.Count < (height - 2)) {
-                for(int i = 0; i < (height - text.Count + 1); i++) {
+
+                for(int i = text.Count; i < (height); i++) {
                     text.Add("");
                 }
             }

@@ -1,24 +1,24 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using Utils;
 using static Utils.LogUtils;
 using Microsoft.VisualBasic;
 using CardBookkeepingTUI;
-using Microsoft.Data.Sqlite;
 using Formatting;
 
 class Entry {
     static void Main(string[] args) {
 
 
-        Console.WriteLine("Testing break");
-        Console.ReadKey();
+        //Console.WriteLine("Testing break");
+        //Console.ReadKey();
         Console.Clear();
 
         bool doILog = true;
         string currentDb = "yugioh.db";
         string connectionString = $"Data Source=./db/{currentDb}";
+
+        int menuIndex = 0;
 
         try {
             Directory.CreateDirectory("./logs");
@@ -33,54 +33,44 @@ class Entry {
             Log($"{e}", doILog);
         }
 
-
-
-
-        //SqliteConnection connection = new SqliteConnection($"Data Source=./db/{currentDb}");
-        //Log("Connecting to data server...", log);
-
-        //try {
-        //    connection.Open();
-        //} catch(Exception e) {
-        //    Console.WriteLine(e);
-        //}
-
-
         Log("Success!", doILog);
         Log("Initializing Master Command", doILog);
 
-        //var masterCommand = connection.CreateCommand();
         SqlOperations.DatabaseCheck(connectionString);
-        //using HttpClient client = new();
 
         bool quit = false;
-        List<string> mainMenuOptions = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
-        Menu mainMenu = new Menu(mainMenuOptions);
+        List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
+        List<string> options = new List<string>() {"Add Card", "Find Card", "Change Card", "Delete Card", "Exit"};
+        int index = 0;
+
 
         while (quit == false) {
+            GC.Collect();
             Console.CursorVisible = false;
             Console.Clear();
-            mainMenu.Display();
+            Textbox.Print(Screen.Center(Textbox.Generate(splash, 50, 5, 1)));
+            Textbox.Print(Screen.Center(Textbox.GenerateMenu(options, index, 20, 1)));
+
 
             switch(Console.ReadKey().Key) {
                 case System.ConsoleKey.UpArrow:
                 case System.ConsoleKey.K:
-                    if(mainMenu.index > 0) {
-                        mainMenu.index--;
-                    }
                     Console.Clear();
+                    if(index > 0) {
+                        index--;
+                    }
                     break;
 
                 case System.ConsoleKey.DownArrow:
                 case System.ConsoleKey.J:
-                    if(mainMenu.index < mainMenu.menuItems.Count-1) {
-                        mainMenu.index++;
-                    }
                     Console.Clear();
+                    if(index < options.Count-1) {
+                        index++;
+                    }
                     break;
 
                 case System.ConsoleKey.Enter:
-                    switch(mainMenu.index) {
+                    switch(index) {
                         case 0:
                             Console.Clear();
                             Menu.AddCardMenu(connectionString);
@@ -122,8 +112,10 @@ namespace CardBookkeepingTUI {
 
     public class Menu {
 
-        public int index;
+        public int index; 
         public List<string> menuItems;
+        List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
+
 
         public Menu(List<string> items) {
             index = 0;
@@ -132,29 +124,8 @@ namespace CardBookkeepingTUI {
 
         public void Display() {
 
-            List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
-            List<string> displayed = new List<string>();
-            for(int i = 0; i < menuItems.Count; i++) {
-                displayed.Add(menuItems[i]);
-            }
-
             Textbox.Print(Screen.Center(Textbox.Generate(splash, 50, 5, 1)));
-
-            for(int i = 0; i < displayed.Count; i++) {
-                if(i == index) {
-                    displayed[i] = $"[[{displayed[i]}]]";
-                }
-            }
-
-            Textbox.Print(Screen.Center(Textbox.Generate(displayed, 20, 7, 1)));
-
-            //for(int i = 0; i < menuItems.Count; i++) {
-            //    if(i == index) {
-            //        Console.WriteLine($"[[{menuItems[i]}]]");
-            //    } else {
-            //        Console.WriteLine($"{menuItems[i]}");
-            //    }
-            //}
+            Textbox.Print(Screen.Center(Textbox.GenerateMenu(menuItems, index, 20, 1)));
             return;
         }       
 
@@ -175,6 +146,7 @@ namespace CardBookkeepingTUI {
 
         async public static void FindCardMenu(string connectionString) {
 
+            
             List<string> message = new List<string>() {"", "What card are you looking for?", ""};
             Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 5, 1)));
             string input = Textbox.PrintInputBox(30);
@@ -216,13 +188,13 @@ namespace CardBookkeepingTUI {
                     message.Add($"Type: {data.type}");
                     message.Add($"|ATK:    |DEF:    |LEVEL:  |");
                     message.Add($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
-                    
+                    message.Add($"{data.desc}");
                     break;
             }
             
             message.Add($"Press any key to continue...");
             message.Add("");
-            Textbox.Print(Screen.Center(Textbox.Generate(message, 40, (message.Count + 2),  1)));
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 40, 25, 1)));
             Console.ReadKey();
         }
 

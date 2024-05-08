@@ -1,3 +1,7 @@
+Known issues:
+    - there is a memory leak on the main menu. too bad!
+
+
 alpha/0.0.4:
 
     - Every menu now uses a nice textbox

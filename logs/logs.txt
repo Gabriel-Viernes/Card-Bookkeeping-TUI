@@ -161,3 +161,243 @@
 5/5/2024 5:28:05 PM: Initializing Master Command
 5/5/2024 5:28:32 PM: Success!
 5/5/2024 5:28:32 PM: Initializing Master Command
+5/5/2024 8:34:28 PM: Success!
+5/5/2024 8:34:28 PM: Initializing Master Command
+5/5/2024 8:35:11 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:35:36 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:36:12 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:36:36 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:37:03 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:37:49 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:39:46 PM: Success!
+5/5/2024 8:39:46 PM: Initializing Master Command
+5/5/2024 8:39:57 PM: Success!
+5/5/2024 8:39:57 PM: Initializing Master Command
+5/5/2024 8:48:32 PM: Success!
+5/5/2024 8:48:32 PM: Initializing Master Command
+5/5/2024 8:48:51 PM: System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 320
+5/5/2024 8:49:12 PM: System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 320
+5/5/2024 8:49:44 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:50:28 PM: System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 320
+5/5/2024 8:52:54 PM: Success!
+5/5/2024 8:52:54 PM: Initializing Master Command
+5/5/2024 8:53:31 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:56:16 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 8:58:12 PM: Success!
+5/5/2024 8:58:12 PM: Initializing Master Command
+5/5/2024 8:58:38 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/5/2024 9:01:43 PM: Success!
+5/5/2024 9:01:43 PM: Initializing Master Command
+5/5/2024 9:02:20 PM: System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+   at CardBookkeepingTUI.HttpOperations.GetCard(String connectionString) in /home/notsito/documents/Card-Bookkeeping-TUI/Program.cs:line 318
+5/5/2024 9:04:13 PM: Success!
+5/5/2024 9:04:13 PM: Initializing Master Command
+5/5/2024 9:05:51 PM: Success!
+5/5/2024 9:05:51 PM: Initializing Master Command
+5/5/2024 9:06:25 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/6/2024 7:39:45 AM: Success!
+5/6/2024 7:39:45 AM: Initializing Master Command
+5/6/2024 7:40:19 AM: Success!
+5/6/2024 7:40:19 AM: Initializing Master Command
+5/6/2024 7:40:56 AM: Success!
+5/6/2024 7:40:56 AM: Initializing Master Command
+5/6/2024 7:41:56 AM: Success!
+5/6/2024 7:41:57 AM: Initializing Master Command
+5/6/2024 7:44:23 AM: Success!
+5/6/2024 7:44:23 AM: Initializing Master Command
+5/6/2024 7:44:42 AM: Success!
+5/6/2024 7:44:42 AM: Initializing Master Command
+5/6/2024 7:45:21 AM: Success!
+5/6/2024 7:45:21 AM: Initializing Master Command
+5/6/2024 7:50:50 AM: Success!
+5/6/2024 7:50:50 AM: Initializing Master Command
+5/6/2024 7:51:32 AM: Success!
+5/6/2024 7:51:32 AM: Initializing Master Command
+5/6/2024 7:54:26 AM: Success!
+5/6/2024 7:54:26 AM: Initializing Master Command
+5/6/2024 7:59:05 AM: Success!
+5/6/2024 7:59:05 AM: Initializing Master Command
+5/6/2024 8:00:54 AM: Success!
+5/6/2024 8:00:54 AM: Initializing Master Command
+5/6/2024 8:08:05 AM: Success!
+5/6/2024 8:08:05 AM: Initializing Master Command
+5/6/2024 8:08:29 AM: Success!
+5/6/2024 8:08:29 AM: Initializing Master Command
+5/6/2024 8:09:27 AM: Success!
+5/6/2024 8:09:27 AM: Initializing Master Command
+5/6/2024 8:09:57 AM: Success!
+5/6/2024 8:09:57 AM: Initializing Master Command
+5/7/2024 6:23:22 PM: Success!
+5/7/2024 6:23:22 PM: Initializing Master Command
+5/7/2024 6:24:40 PM: Success!
+5/7/2024 6:24:40 PM: Initializing Master Command
+5/7/2024 7:00:15 PM: Success!
+5/7/2024 7:00:15 PM: Initializing Master Command
+5/7/2024 7:00:42 PM: Success!
+5/7/2024 7:00:42 PM: Initializing Master Command
+5/7/2024 7:02:51 PM: Success!
+5/7/2024 7:02:51 PM: Initializing Master Command
+5/7/2024 7:03:17 PM: Success!
+5/7/2024 7:03:17 PM: Initializing Master Command
+5/7/2024 7:46:01 PM: Success!
+5/7/2024 7:46:01 PM: Initializing Master Command
+5/7/2024 7:46:43 PM: Success!
+5/7/2024 7:46:43 PM: Initializing Master Command
+5/7/2024 7:47:07 PM: Success!
+5/7/2024 7:47:07 PM: Initializing Master Command
+5/7/2024 7:48:33 PM: Success!
+5/7/2024 7:48:33 PM: Initializing Master Command
+5/7/2024 7:49:15 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 7:49:47 PM: Success!
+5/7/2024 7:49:47 PM: Initializing Master Command
+5/7/2024 7:50:25 PM: Success!
+5/7/2024 7:50:25 PM: Initializing Master Command
+5/7/2024 7:50:35 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 7:51:40 PM: Success!
+5/7/2024 7:51:40 PM: Initializing Master Command
+5/7/2024 7:53:45 PM: Success!
+5/7/2024 7:53:45 PM: Initializing Master Command
+5/7/2024 7:53:53 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 7:55:20 PM: Success!
+5/7/2024 7:55:20 PM: Initializing Master Command
+5/7/2024 7:55:33 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 8:00:25 PM: Success!
+5/7/2024 8:00:25 PM: Initializing Master Command
+5/7/2024 8:00:34 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 8:01:31 PM: Success!
+5/7/2024 8:01:31 PM: Initializing Master Command
+5/7/2024 8:44:48 PM: Success!
+5/7/2024 8:44:48 PM: Initializing Master Command
+5/7/2024 8:45:32 PM: Success!
+5/7/2024 8:45:32 PM: Initializing Master Command
+5/7/2024 8:46:52 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 8:52:08 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 8:58:50 PM: Success!
+5/7/2024 8:58:50 PM: Initializing Master Command
+5/7/2024 8:59:24 PM: Success!
+5/7/2024 8:59:24 PM: Initializing Master Command
+5/7/2024 9:00:24 PM: Success!
+5/7/2024 9:00:24 PM: Initializing Master Command
+5/7/2024 9:01:29 PM: Success!
+5/7/2024 9:01:29 PM: Initializing Master Command
+5/7/2024 9:55:26 PM: Success!
+5/7/2024 9:55:26 PM: Initializing Master Command
+5/7/2024 9:55:54 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 9:56:25 PM: Microsoft.Data.Sqlite.SqliteParameterCollection
+5/7/2024 10:08:55 PM: Success!
+5/7/2024 10:08:55 PM: Initializing Master Command
+5/7/2024 10:10:06 PM: Success!
+5/7/2024 10:10:06 PM: Initializing Master Command
+5/7/2024 10:11:35 PM: Success!
+5/7/2024 10:11:35 PM: Initializing Master Command
+5/7/2024 10:26:02 PM: Success!
+5/7/2024 10:26:02 PM: Initializing Master Command
+5/7/2024 10:27:23 PM: Success!
+5/7/2024 10:27:23 PM: Initializing Master Command
+5/7/2024 10:28:55 PM: Success!
+5/7/2024 10:28:55 PM: Initializing Master Command
+5/7/2024 10:29:18 PM: Success!
+5/7/2024 10:29:18 PM: Initializing Master Command
+5/7/2024 10:30:54 PM: Success!
+5/7/2024 10:30:54 PM: Initializing Master Command
+5/7/2024 10:31:28 PM: Success!
+5/7/2024 10:31:28 PM: Initializing Master Command
+5/7/2024 10:31:49 PM: Success!
+5/7/2024 10:31:49 PM: Initializing Master Command
+5/7/2024 10:34:18 PM: Success!
+5/7/2024 10:34:18 PM: Initializing Master Command
+5/7/2024 10:36:07 PM: Success!
+5/7/2024 10:36:07 PM: Initializing Master Command
+5/7/2024 10:36:36 PM: Success!
+5/7/2024 10:36:36 PM: Initializing Master Command
+5/7/2024 10:37:05 PM: Success!
+5/7/2024 10:37:05 PM: Initializing Master Command
+5/7/2024 10:37:48 PM: Success!
+5/7/2024 10:37:48 PM: Initializing Master Command
+5/7/2024 10:39:02 PM: Success!
+5/7/2024 10:39:02 PM: Initializing Master Command
+5/7/2024 10:40:37 PM: Success!
+5/7/2024 10:40:37 PM: Initializing Master Command
+5/7/2024 10:41:50 PM: Success!
+5/7/2024 10:41:50 PM: Initializing Master Command
+5/7/2024 10:42:13 PM: Success!
+5/7/2024 10:42:13 PM: Initializing Master Command
+5/7/2024 10:42:51 PM: Success!
+5/7/2024 10:42:51 PM: Initializing Master Command
+5/7/2024 10:43:59 PM: Success!
+5/7/2024 10:43:59 PM: Initializing Master Command
+5/7/2024 10:44:15 PM: Success!
+5/7/2024 10:44:15 PM: Initializing Master Command
+5/7/2024 10:44:30 PM: Success!
+5/7/2024 10:44:30 PM: Initializing Master Command
+5/7/2024 10:45:47 PM: Success!
+5/7/2024 10:45:47 PM: Initializing Master Command
+5/7/2024 10:47:48 PM: Success!
+5/7/2024 10:47:48 PM: Initializing Master Command
+5/7/2024 10:56:21 PM: Success!
+5/7/2024 10:56:21 PM: Initializing Master Command
+5/7/2024 10:56:31 PM: Success!
+5/7/2024 10:56:31 PM: Initializing Master Command
+5/7/2024 10:57:39 PM: Success!
+5/7/2024 10:57:39 PM: Initializing Master Command
+5/7/2024 11:00:43 PM: Success!
+5/7/2024 11:00:43 PM: Initializing Master Command
+5/7/2024 11:01:20 PM: Success!
+5/7/2024 11:01:20 PM: Initializing Master Command
+5/7/2024 11:02:29 PM: Success!
+5/7/2024 11:02:29 PM: Initializing Master Command
+5/7/2024 11:02:36 PM: Success!
+5/7/2024 11:02:36 PM: Initializing Master Command
+5/7/2024 11:04:45 PM: Success!
+5/7/2024 11:04:45 PM: Initializing Master Command
+5/7/2024 11:07:54 PM: Success!
+5/7/2024 11:07:54 PM: Initializing Master Command
+5/7/2024 11:10:18 PM: Success!
+5/7/2024 11:10:18 PM: Initializing Master Command
+5/7/2024 11:10:32 PM: Success!
+5/7/2024 11:10:32 PM: Initializing Master Command
+5/7/2024 11:13:45 PM: Success!
+5/7/2024 11:13:45 PM: Initializing Master Command
+5/7/2024 11:14:12 PM: Success!
+5/7/2024 11:14:12 PM: Initializing Master Command
+5/7/2024 11:16:06 PM: Success!
+5/7/2024 11:16:06 PM: Initializing Master Command
+5/7/2024 11:20:33 PM: Success!
+5/7/2024 11:20:33 PM: Initializing Master Command
+5/7/2024 11:20:50 PM: Success!
+5/7/2024 11:20:50 PM: Initializing Master Command
+5/7/2024 11:21:47 PM: Success!
+5/7/2024 11:21:47 PM: Initializing Master Command
+5/7/2024 11:23:03 PM: Success!
+5/7/2024 11:23:03 PM: Initializing Master Command
+5/7/2024 11:23:19 PM: Success!
+5/7/2024 11:23:19 PM: Initializing Master Command
+5/7/2024 11:24:58 PM: Success!
+5/7/2024 11:24:58 PM: Initializing Master Command
+5/7/2024 11:27:07 PM: Success!
+5/7/2024 11:27:07 PM: Initializing Master Command
+5/7/2024 11:27:43 PM: Success!
+5/7/2024 11:27:43 PM: Initializing Master Command
+5/7/2024 11:28:59 PM: Success!
+5/7/2024 11:28:59 PM: Initializing Master Command
+5/7/2024 11:29:13 PM: Success!
+5/7/2024 11:29:13 PM: Initializing Master Command
+5/7/2024 11:29:17 PM: Success!
+5/7/2024 11:29:17 PM: Initializing Master Command
+5/7/2024 11:29:58 PM: Success!
+5/7/2024 11:29:58 PM: Initializing Master Command
+5/7/2024 11:31:47 PM: Success!
+5/7/2024 11:31:47 PM: Initializing Master Command
+5/7/2024 11:32:15 PM: Success!
+5/7/2024 11:32:15 PM: Initializing Master Command

@@ -1,11 +1,7 @@
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using static Utils.LogUtils;
 using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
 using System.Reflection;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Utils {
     class SqlOperations {
@@ -60,7 +56,7 @@ namespace Utils {
                     }
                 }
 
-                connection.Close();
+                connection.Dispose();
                 return false;
 
             }
@@ -138,10 +134,10 @@ namespace Utils {
                 using (var commandReader = command.ExecuteReader()) {
                     Log($"{command.Parameters}", true);
                 }
+                command.Dispose();
+                connection.Dispose();
             }
-
-
-           
+            return;
         }
 
         public static void UpdateExistingCard(string connectionString, string cardName, int newCopies) {
@@ -195,6 +191,7 @@ namespace Utils {
             using (StreamWriter writer = File.AppendText("./logs/logs.txt")) {
                 writer.WriteLine($"{DateTime.Now}: {input}");
             }
+
         }
     }
 }
