@@ -1,6 +1,6 @@
 using static System.Console;
 using CardBookkeepingTUI;
-using Utils;
+using static Utils.StringUtils;
 
 
 namespace Formatting {
@@ -63,11 +63,48 @@ namespace Formatting {
 
         }
 
-        public static List<CardDataSkeleton> GenerateTable(List<CardDataSkeleton> rows, int width, int cellWidth, int alignment) {
-            for(int i = 0; i < rows.Count; i++) {
-                
+        public static List<string> GenerateTable(List<List<string>> cards, int width, int cellWidth, int alignment) {
+
+            string top = "┌";
+            string bottom = "└";
+            int count = 0;
+
+            for(int i = 0; i < cards[0].Count-1; i++) {
+                for(int j = 0; j < cellWidth; j++) {
+                    top += "─";
+                    bottom += "─";
+                }
+                top += "┬";
+                bottom += "┴";
             }
-            return rows;
+            for(int i = 0; i < cellWidth; i++) {
+                top += "─";
+                bottom += "─";
+            }
+
+            top += "┐";
+            bottom += "┘";
+
+            List<string> rendered = new List<string>();
+            rendered.Add(top);
+            foreach (List<string> card in cards) {
+                string temp = "│";
+                for(int i = 0; i < card.Count; i++) {
+                    if(card[i].Length > cellWidth) {
+                        temp += tententen(card[i], cellWidth);    
+                    } else {
+                        temp += card[i];
+                        for(int j = card[i].Length-1; j < cellWidth - 1; j++) {
+                            temp += " ";
+                        }
+                    }
+                    temp += "│";
+                }
+                rendered.Add(temp);
+            } 
+            rendered.Add(bottom);
+        
+            return rendered;
         }
 
         public static List<string> GenerateMenu(List<string> text, int index, int width, int alignment) {
@@ -194,6 +231,27 @@ namespace Formatting {
     }
 
     public static class Align {
+
+        public static string SelectAlign(string text, int width, int alignment) {
+             if(text.Length > (width-2)) {
+                Exception e = new Exception("Text too long for specified width");
+                throw e;
+            }           
+            switch(alignment) {
+                case 0:
+                    return Align.LeftAlign(text, width);
+                case 1:
+                    return Align.CenterAlign(text, width);
+                case 2:
+                    return Align.RightAlign(text, width);
+                default:
+                    Exception e = new Exception("Invalid alignment specified. Please use an integer from 0-2");
+                    throw e;
+
+            }
+
+        }
+
         public static string LeftAlign(string text, int width) {
             if(text.Length > (width-2)) {
                 Exception e = new Exception("Text too long for specified width");

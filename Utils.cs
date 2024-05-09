@@ -1,7 +1,6 @@
 using static Utils.LogUtils;
 using CardBookkeepingTUI;
 using Microsoft.Data.Sqlite;
-using System.Reflection;
 
 namespace Utils {
     class SqlOperations {
@@ -62,34 +61,34 @@ namespace Utils {
             }
         }
 
-        public static List<CardDataSkeleton> FindExistingCard(string connectionString, string input) {
-
+        public static List<List<string>> FindExistingCard(string connectionString, string input) {
+            
+            List<List<string>> data = new List<List<string>>();
             using(var connection = new SqliteConnection(connectionString)) {
 
                 connection.Open();
                 SqliteCommand command = connection.CreateCommand();
                 command.CommandText = $"SELECT * FROM cards WHERE name LIKE '%{input}%';";
-                List<CardDataSkeleton> temp = new List<CardDataSkeleton>();
-                CardDataSkeleton data = new CardDataSkeleton();
                 using (var commandReader = command.ExecuteReader()) {
                     while (commandReader.Read()) {
-                        data.id = commandReader.GetInt32(1);
-                        data.name = commandReader.GetString(2);
-                        data.type = commandReader.GetString(3);
-                        data.frameType = commandReader.GetString(4);
-                        data.desc = commandReader.GetString(5);
-                        data.atk = commandReader.GetInt32(6);
-                        data.def = commandReader.GetInt32(7);
-                        data.level = commandReader.GetInt32(8);
-                        data.race = commandReader.GetString(9);
-                        data.attribute = commandReader.GetString(10);
-                        data.copies = commandReader.GetInt32(11);
-                        temp.Add(data);
+                        List<string> temp = new List<string>();
+                        temp.Add(commandReader.GetString(1));
+                        temp.Add(commandReader.GetString(2));
+                        temp.Add(commandReader.GetString(3));
+                        temp.Add(commandReader.GetString(4));
+                        temp.Add(commandReader.GetString(5));
+                        temp.Add(commandReader.GetString(6));
+                        temp.Add(commandReader.GetString(7));
+                        temp.Add(commandReader.GetString(8));
+                        temp.Add(commandReader.GetString(9));
+                        temp.Add(commandReader.GetString(10));
+                        temp.Add(commandReader.GetString(11));
+                        data.Add(temp);
                     }
                 }
 
-                return temp;
             }
+            return data;
         }
 
         public static void InsertCard(string connectionString,List<string> input) {
@@ -158,9 +157,7 @@ namespace Utils {
 
         //SCREW pascaL casE
         public static string tententen(string input, int width) {
-            if(input.Length > width-3) {
-                input = input.Substring(0, width-3);
-            }
+            input = input.Substring(0, width-3);
             return $"{input}...";
         }
 
@@ -195,6 +192,12 @@ namespace Utils {
     }
 
     class LogUtils {
+
+        public static void Log(string input) {
+            using (StreamWriter writer = File.AppendText("./logs/logs.txt")) {
+                writer.WriteLine($"{DateTime.Now}: {input}");
+            }
+        }
 
         public static void Log(string input, bool allowed) {
             if(allowed == false) {

@@ -149,7 +149,7 @@ namespace CardBookkeepingTUI {
             Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 5, 1)));
             string input = Textbox.PrintInputBox(30);
 
-            List<CardDataSkeleton> data = new List<CardDataSkeleton>();
+            List<List<string>> data = new List<List<string>>();
 
             //if(SqlOperations.CheckForExistingCard(connectionString, input) == false) {
             //    Console.Clear();
@@ -170,13 +170,9 @@ namespace CardBookkeepingTUI {
 
 
             Console.Clear();
-            message.Clear();
 
-            Console.WriteLine($"{data.Count}");
-            for(int i = 0; i < data.Count; i++) {
-                Console.WriteLine(data[i].name);
-            }
-            Console.ReadKey();
+            
+
            // message.Add("");
            // message.Add($"You have {data.copies} copies of {data.name}");
            // switch(data.type) {
@@ -198,7 +194,38 @@ namespace CardBookkeepingTUI {
            // 
            // message.Add($"Press any key to continue...");
            // message.Add("");
-            Textbox.Print(Screen.Center(Textbox.Generate(message, 40, 25, 1)));
+           //
+            if(data.Count == 0) {
+            List<string> notFound = new List<string>() {
+                "",
+                "No cards found with provided keyword",
+                "Press any key to continue...",
+                ""
+            };
+
+
+                Textbox.Print(Screen.Center(Textbox.Generate(notFound, 1)));
+                Console.ReadKey();
+                return;
+            }          
+            data.Insert(0, new List<string>() {
+                "Card ID",
+                "Name",
+                "Type",
+                "FrameType",
+                "Desc.",
+                "Atk",
+                "Def",
+                "Level",
+                "Race",
+                "Attr.",
+                "Copies"
+            });
+
+            message[1] = "Press any key to continue...";
+
+            Textbox.Print(Screen.Center(Textbox.Generate(message, 1)));
+            Textbox.Print(Screen.Center(Textbox.GenerateTable(data, data[0].Count * 10, 10, 1)));
             Console.ReadKey();
         }
 
