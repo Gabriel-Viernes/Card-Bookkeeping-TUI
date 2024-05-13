@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CQsjHkNHuyGkg4INJHqRWJe26mbcATrjjJR2SmP83ilOS827dg+oMC9XsLrNzwfhfZYqHryfLOKasWeoHNhWnQ==",
+  "dgSpecHash": "lyziS1DY5nzQb7CYFEbdhkd3mIyTTYaruNhoCUPbHlk5d46IdSsN43Gw8zIXbfA7mGOIRqY8tB6HpsH6nfONTA==",
   "success": true,
-  "projectFilePath": "/home/notsito/documents/Card-Bookkeeping-TUI/CardBookkeepingTUI.csproj",
+  "projectFilePath": "/home/notsito/documents/projects/cbt/CardBookkeepingTUI.csproj",
   "expectedPackageFiles": [
     "/home/notsito/.nuget/packages/microsoft.data.sqlite/8.0.4/microsoft.data.sqlite.8.0.4.nupkg.sha512",
     "/home/notsito/.nuget/packages/microsoft.data.sqlite.core/8.0.4/microsoft.data.sqlite.core.8.0.4.nupkg.sha512",

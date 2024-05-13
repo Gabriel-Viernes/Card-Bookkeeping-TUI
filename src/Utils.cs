@@ -14,8 +14,8 @@ namespace Utils {
                 command.CommandText = @"
                     CREATE TABLE IF NOT EXISTS cards (
                         ID INTEGER PRIMARY KEY,
-                        card_id INTEGER NOT NULL,
                         name TEXT,
+                        copies INTEGER,
                         type TEXT,
                         frametype TEXT,
                         description TEXT,
@@ -24,7 +24,7 @@ namespace Utils {
                         level INTEGER,
                         race TEXT,
                         attribute TEXT,
-                        copies INTEGER
+                        card_id INTEGER NOT NULL
                 );";
                 
                 using (var commandReader = command.ExecuteReader()) {
@@ -99,7 +99,7 @@ namespace Utils {
                 SqliteCommand command = connection.CreateCommand();
 
                 command.CommandText = $@"
-                    INSERT INTO cards (card_id, name, type, frameType, description, atk, def, level, race, attribute, copies)
+                    INSERT INTO cards (name, copies, type, frameType, description, atk, def, level, race, attribute, card_id)
                     VALUES ('{input[0]}', '{input[1]}', '{input[2]}', '{input[3]}', '{input[4]}', '{input[5]}', '{input[6]}', '{input[7]}', '{input[8]}', '{input[9]}', '{input[10]}');";
 
                 try {
@@ -163,8 +163,8 @@ namespace Utils {
 
         public static List<string> ConvertCardDataSkeletonToList(CardDataSkeleton input) {
             List<string> converted = new List<string>();
-            converted.Add(input.id.ToString());
             converted.Add(input.name.ToLower());
+            converted.Add(input.copies.ToString());
             converted.Add(input.type);
             converted.Add(input.frameType);
             converted.Add(input.desc);
@@ -179,7 +179,7 @@ namespace Utils {
            }
             converted.Add(input.race);
             converted.Add(input.attribute);
-            converted.Add(input.copies.ToString());
+            converted.Add(input.id.ToString());
             
             for(int i = 0; i < converted.Count; i++) {
                 if(converted[i] == null) {
@@ -194,7 +194,7 @@ namespace Utils {
     class LogUtils {
 
         public static void Log(string input) {
-            using (StreamWriter writer = File.AppendText("./logs/logs.txt")) {
+            using (StreamWriter writer = File.AppendText("../logs/logs.txt")) {
                 writer.WriteLine($"{DateTime.Now}: {input}");
             }
         }

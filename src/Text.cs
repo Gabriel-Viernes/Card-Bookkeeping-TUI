@@ -265,6 +265,7 @@ namespace Formatting {
             text = text + "\u2502";
             return text;
         }
+
         public static string CenterAlign(string text, int width) {
             if(text.Length > (width-2)) {
                 Exception e = new Exception("Text too long for specified width");
@@ -291,6 +292,7 @@ namespace Formatting {
             }
             return text;
         }
+
         public static string RightAlign(string text, int width) {
             if(text.Length > (width-2)) {
                 Exception e = new Exception("Text too long for specified width");

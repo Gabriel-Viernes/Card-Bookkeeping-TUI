@@ -8,27 +8,17 @@ using Formatting;
 
 class Entry {
     static void Main(string[] args) {
-
-
-        //Console.WriteLine("Testing break");
-        //Console.ReadKey();
         Console.Clear();
 
+        string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         bool doILog = true;
         string currentDb = "yugioh.db";
-        string connectionString = $"Data Source=./db/{currentDb}";
-
-        int menuIndex = 0;
+        string connectionString = $"Data Source={homeFolder}/.config/cbt/db/{currentDb}";
 
         try {
-            Directory.CreateDirectory("./logs");
-        } catch(Exception e) {
-            Log($"{e}", doILog);
-        }
-
-        try {
-            Directory.CreateDirectory("./config");
-            Directory.CreateDirectory("./db");
+            Directory.CreateDirectory($"{homeFolder}/.config/cbt/logs");
+            //Directory.CreateDirectory("./config/");
+            Directory.CreateDirectory($"{homeFolder}/.config/cbt/db");
         } catch(Exception e) {
             Log($"{e}", doILog);
         }
@@ -43,7 +33,6 @@ class Entry {
 
 
         while (quit == false) {
-            GC.Collect();
             Console.CursorVisible = false;
             Console.Clear();
             Textbox.Print(Screen.Center(Textbox.Generate(splash, 50, 5, 1)));
@@ -71,22 +60,22 @@ class Entry {
                     switch(index) {
                         case 0:
                             Console.Clear();
-                            Menu.AddCardMenu(connectionString);
+                            Menu.AddCardDialog(connectionString);
                             break;
 
                         case 1:
                             Console.Clear();
-                            Menu.FindCardMenu(connectionString);
+                            Menu.FindCardDialog(connectionString);
                             break;
 
                         case 2:
                             Console.Clear();
-                            Menu.UpdateCardMenu(connectionString);
+                            Menu.UpdateCardDialog(connectionString);
                             break;
 
                         case 3:
                             Console.Clear();
-                            Menu.DeleteCardMenu(connectionString);
+                            Menu.DeleteCardDialog(connectionString);
                             break;
 
                         case 4:
@@ -108,26 +97,9 @@ class Entry {
 
 namespace CardBookkeepingTUI {
 
-    public class Menu {
+    class Menu {
 
-        public int index; 
-        public List<string> menuItems;
-        List<string> splash = new List<string>() {"", "Welcome to the Card Bookkeeping TUI!", ""};
-
-
-        public Menu(List<string> items) {
-            index = 0;
-            menuItems = items;
-        }
-
-        public void Display() {
-
-            Textbox.Print(Screen.Center(Textbox.Generate(splash, 50, 5, 1)));
-            Textbox.Print(Screen.Center(Textbox.GenerateMenu(menuItems, index, 20, 1)));
-            return;
-        }       
-
-        async public static void AddCardMenu(string connectionString) {
+        async public static void AddCardDialog(string connectionString) {
 
             List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", ""};
             
@@ -138,28 +110,15 @@ namespace CardBookkeepingTUI {
             } catch (Exception e) {
                 Console.WriteLine("An error occurred");
                 Console.WriteLine(e);
-                AddCardMenu(connectionString);
+                AddCardDialog(connectionString);
             }
         }
 
-        async public static void FindCardMenu(string connectionString) {
-
-            
+         public static void FindCardDialog(string connectionString) {
             List<string> message = new List<string>() {"", "What card are you looking for?", ""};
             Textbox.Print(Screen.Center(Textbox.Generate(message, 50, 5, 1)));
             string input = Textbox.PrintInputBox(30);
-
             List<List<string>> data = new List<List<string>>();
-
-            //if(SqlOperations.CheckForExistingCard(connectionString, input) == false) {
-            //    Console.Clear();
-            //    message[1] = "Card not found! Please make sure that you entered the card's name correctly";
-            //    message[2] = "Press any key to continue...";
-            //    message.Add("");
-            //    Textbox.Print(Screen.Center(Textbox.Generate(message ,1)));
-            //    Console.ReadKey();
-            //    return;
-            //}
 
             try {
                 data = SqlOperations.FindExistingCard(connectionString, input);
@@ -168,68 +127,63 @@ namespace CardBookkeepingTUI {
                 return;
             }
 
-
             Console.Clear();
 
-            
-
-           // message.Add("");
-           // message.Add($"You have {data.copies} copies of {data.name}");
-           // switch(data.type) {
-           //     case "Spell Card":
-           //         message.Add($"Type: {data.type}");
-           //         message.Add($"{data.desc}");
-           //         break;
-           //     case "Trap Card":
-           //         message.Add($"Type: {data.type}");
-           //         message.Add($"{data.desc}");
-           //         break;
-           //     default:
-           //         message.Add($"Type: {data.type}");
-           //         message.Add($"|ATK:    |DEF:    |LEVEL:  |");
-           //         message.Add($"|{StringUtils.MakeLengthUniform(data.atk)}|{StringUtils.MakeLengthUniform(data.def)}|{StringUtils.MakeLengthUniform(data.level)}|");
-           //         message.Add($"{data.desc}");
-           //         break;
-           // }
-           // 
-           // message.Add($"Press any key to continue...");
-           // message.Add("");
-           //
             if(data.Count == 0) {
-            List<string> notFound = new List<string>() {
-                "",
-                "No cards found with provided keyword",
-                "Press any key to continue...",
-                ""
-            };
-
-
+                List<string> notFound = new List<string>() {
+                    "",
+                    "No cards found with provided keyword",
+                    "Press any key to continue...",
+                    ""
+                };
                 Textbox.Print(Screen.Center(Textbox.Generate(notFound, 1)));
                 Console.ReadKey();
                 return;
             }          
-            data.Insert(0, new List<string>() {
-                "Card ID",
-                "Name",
-                "Type",
-                "FrameType",
-                "Desc.",
-                "Atk",
-                "Def",
-                "Level",
-                "Race",
-                "Attr.",
-                "Copies"
-            });
 
-            message[1] = "Press any key to continue...";
+            data.Insert(0, new List<string>() {"Name","Copies","Type","FrameType","Desc.","Atk","Def","Level","Race","Attr.","Card ID" });
 
-            Textbox.Print(Screen.Center(Textbox.Generate(message, 1)));
-            Textbox.Print(Screen.Center(Textbox.GenerateTable(data, data[0].Count * 10, 10, 1)));
-            Console.ReadKey();
+            message[1] = "Press ESC to go back to the main menu";
+
+            List<string> temp = Textbox.GenerateTable(data, data[0].Count * 10, 10, 1);
+            int index = 2;
+            temp[index] += "<<<";
+            bool exit = false;
+            while(exit == false) {
+                Textbox.Print(Screen.Center(Textbox.Generate(message, 1)));
+                Textbox.Print(temp);
+                switch(Console.ReadKey().Key) {
+                    case System.ConsoleKey.UpArrow:
+                    case System.ConsoleKey.K:
+                        Console.Clear();
+                        if(index > 2) {
+                            temp[index] = temp[index].Substring(0,temp[index].Length - 3);
+                            index--;
+                            temp[index] += "<<<";
+                        }
+                        break;
+
+                    case System.ConsoleKey.DownArrow:
+                    case System.ConsoleKey.J:
+                        Console.Clear();
+                        if(index < temp.Count-2) {
+                            temp[index] = temp[index].Substring(0,temp[index].Length - 3);
+                            index++;
+                            temp[index] += "<<<";
+                        }
+                        break;
+                    case System.ConsoleKey.Enter:
+                        Console.Clear();
+                        break;
+                    case System.ConsoleKey.Escape:
+                        exit = true;
+                        break;
+                   
+                }
+            }
         }
 
-        async public static void UpdateCardMenu(string connectionString) {
+         public static void UpdateCardDialog(string connectionString) {
 
             List<string> message = new List<string>() {"", "What card would you like to update?", "", ""};
             Textbox.Print(Screen.Center(Textbox.Generate( message,50, 6, 1)));
@@ -268,7 +222,7 @@ namespace CardBookkeepingTUI {
 
         }
 
-        async public static void DeleteCardMenu(string connectionString) {
+         public static void DeleteCardDialog(string connectionString) {
             List<string> message = new List<string>() { "", "What card would you like to delete?", ""};
             Textbox.Print(Screen.Center(Textbox.Generate(message, 60, 5, 1)));
             string cardName = Textbox.PrintInputBox(30);
