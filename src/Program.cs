@@ -306,9 +306,11 @@ namespace CardBookkeepingTUI {
                     data = newCard;
                     data.copies = copies;
                     List<string> test = StringUtils.ConvertCardDataSkeletonToList(data);
+                    string report = "Added new card:";
                     for(int i = 0; i < test.Count; i++) {
-                        Log($"{test[i]}", true);
+                        report += $"{test[i]}|";
                     }
+                    Log(report);
                     SqlOperations.InsertCard(connectionString, test);                               
 
                 } catch(Exception e) {

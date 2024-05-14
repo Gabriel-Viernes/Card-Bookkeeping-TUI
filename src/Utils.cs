@@ -40,7 +40,6 @@ namespace Utils {
 
         public static bool CheckForExistingCard(string connectionString, string input) {
             using(var connection = new SqliteConnection(connectionString)) {
-
                 connection.Open();
                 var command = connection.CreateCommand();
 
@@ -106,7 +105,7 @@ namespace Utils {
                     using (var commandReader = command.ExecuteReader()) {
                     }
                 } catch(Exception e) {
-                    Log($"{e}", true);
+                    Log($"{e}");
 
                 }
                 command.Dispose();
@@ -194,7 +193,7 @@ namespace Utils {
     class LogUtils {
 
         public static void Log(string input) {
-            using (StreamWriter writer = File.AppendText("../logs/logs.txt")) {
+            using (StreamWriter writer = File.AppendText($"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.config/cbt/logs/logs.txt")) {
                 writer.WriteLine($"{DateTime.Now}: {input}");
             }
         }
@@ -204,7 +203,7 @@ namespace Utils {
                 return;
             }
             
-            using (StreamWriter writer = File.AppendText("./logs/logs.txt")) {
+            using (StreamWriter writer = File.AppendText($"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.config/cbt/logs/logs.txt")) {
                 writer.WriteLine($"{DateTime.Now}: {input}");
             }
 
