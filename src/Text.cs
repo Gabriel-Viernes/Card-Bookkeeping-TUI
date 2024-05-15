@@ -149,6 +149,7 @@ namespace Formatting {
 
         public static List<string> Generate(List<string> text, int width, int height, int alignment) {
 
+
             if((alignment > 2) || (alignment < 0)) {
                 Exception e = new Exception("Invalid alignment specified. Please choose from a range of 0-2");
             }
@@ -168,30 +169,19 @@ namespace Formatting {
 
 
             if(text.Count > (height - 2)) {
-                Exception e = new Exception("Too many lines of text for given height");
+                Exception e = new Exception($"Attempting to put {text.Count} lines of text in a textbox of height {height}");
                 throw e;
             } else if(text.Count > WindowHeight) {
                 Exception e = new Exception("Textbox too tall for current window height");
                 throw e; 
             }
 
-//            for(int i = 0; i < text.Count; i++) {
-//                if(text[i].Length > width) {
-//                    Exception e = new Exception("Text is too long for given width");
-//                    throw e;
-//                }
-//                if(text[i].Length > WindowWidth) {
-//                    Exception e = new Exception("Text is too long for current window");
-//                    throw e;
-//                }
-//            }           
+            //if(text.Count < (height - 2)) {
 
-            if(text.Count < (height - 2)) {
-
-                for(int i = text.Count; i < (height); i++) {
-                    text.Add("");
-                }
-            }
+            //    for(int i = text.Count; i < (height); i++) {
+            //        text.Add("");
+            //    }
+            //}
 
             string top = "┌";
             string bottom = "└";
@@ -208,22 +198,29 @@ namespace Formatting {
             
             switch(alignment) {
                 case 0:
-                    for(int i = 0; i < height-2; i++) {
+                    for(int i = 0; i < text.Count; i++) {
                         generatedTextbox.Add(Align.LeftAlign(text[i], width));
                     }
                     break;
                 case 1:
-                    for(int i = 0; i < height-2; i++) {
+                    for(int i = 0; i < text.Count; i++) {
                         generatedTextbox.Add(Align.CenterAlign(text[i], width));
                     }
                     break;
                 case 2:
-                    for(int i = 0; i < height-2; i++) {
+                    for(int i = 0; i < text.Count; i++) {
                         generatedTextbox.Add(Align.RightAlign(text[i],width));
                         
                     }
                     break;
             }
+
+            if(generatedTextbox.Count < (height-2)) {
+                for(int i = generatedTextbox.Count; i < height; i++) {
+                    generatedTextbox.Add("");
+                }
+            }
+
             generatedTextbox.Add(bottom);
             return generatedTextbox;
         }
