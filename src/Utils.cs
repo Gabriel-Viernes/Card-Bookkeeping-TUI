@@ -1,5 +1,5 @@
 using static Utils.LogUtils;
-using CardBookkeepingTUI;
+using Dialogs;
 using Microsoft.Data.Sqlite;
 
 namespace Utils {

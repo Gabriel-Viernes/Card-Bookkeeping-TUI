@@ -1,6 +1,6 @@
 ﻿using Utils;
 using static Utils.LogUtils;
-using CardBookkeepingTUI;
+using Dialogs;
 using Formatting;
 
 class Entry {

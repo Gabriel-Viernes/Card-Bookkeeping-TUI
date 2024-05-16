@@ -6,89 +6,120 @@ using System.Text.Json;
 using Microsoft.VisualBasic;
 
 
-namespace CardBookkeepingTUI {
+namespace Dialogs {
 
     class Menu {
 
         async public static void AddCardDialog(string connectionString) {
 
             List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", ""};
-            
-            Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
-            string? card = Textbox.PrintInputBox(30);
+            List<string> cardNameList = new List<string>();
+            List<int> cardCopyList = new List<int>();
+            bool next = false;
 
-            while (card.Length == 0) {
+            while (next == false) {
+
+                message[1] = "Please enter the name of the card you would like to add";
+                message[2] = "";
                 Console.Clear();
-                message[2] = "Input too short";
+                //asks for card name
                 Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
-                card = Textbox.PrintInputBox(30);
-            }
+                string? card = Textbox.PrintInputBox(30);
 
-            if(SqlOperations.CheckForExistingCard(connectionString, card) == true) {
-                Console.Clear();
-                message[1] = "Card already exists! Please update the card instead";
-                message[2] = "Press any key to continue...";
-                Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
-                Console.ReadKey();
-                return;
-            }
-
-            message[1] = "How many copies do you have?";
-            message[2] = "";
-
-            Console.Clear();
-            Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
-            string copiesRaw = Textbox.PrintInputBox(30);
-
-            int copies = 0;
-            bool validInt = false;
-
-            while(validInt == false) {
-                if(Information.IsNumeric(copiesRaw) == true) {
-                    copies = Convert.ToInt32(copiesRaw);
-                    break;
-                } else {
+                //checks for invalid input and existing cards
+                while (card.Length == 0) {
                     Console.Clear();
-                    message[1] = "Invalid characters detected, please only enter numbers";
+                    message[2] = "Input too short";
                     Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
-                    copiesRaw = Textbox.PrintInputBox(30);
+                    card = Textbox.PrintInputBox(30);
+                }
+
+                string copiesRaw = "";
+
+                if(SqlOperations.CheckForExistingCard(connectionString, card) == true) {
+                    Console.Clear();
+                    message[1] = "Card already exists! Please update the card instead";
+                    message[2] = "Press any key to continue...";
+                    Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
+                    Console.ReadKey();
+                    continue;
+                }
+                //dialog to ask for copies
+     
+                message[1] = "How many copies do you have?";
+                message[2] = "";
+
+                Console.Clear();
+                Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
+                copiesRaw = Textbox.PrintInputBox(30);
+
+
+                int copies = 0;
+                bool validInt = false;
+
+                //checks if input is valid
+                while(validInt == false) {
+                    if(Information.IsNumeric(copiesRaw) == true) {
+                        copies = Convert.ToInt32(copiesRaw);
+                        break;
+                    } else {
+                        Console.Clear();
+                        message[1] = "Invalid characters detected, please only enter numbers";
+                        Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
+                        copiesRaw = Textbox.PrintInputBox(30);
+                    }
+                }
+
+                message[1] = "Press Tab to add another card or Enter to continue";
+                message[2] = "";
+                
+                card = card.Replace(" ","%20");
+                cardNameList.Add(card);
+                cardCopyList.Add(copies);
+
+                Console.Clear();
+                Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
+                switch(Console.ReadKey().Key) {
+                    case System.ConsoleKey.Tab:
+                        break;
+                    case System.ConsoleKey.Enter:
+                        next = true;
+                        break;
                 }
             }
-
-            card = card.Replace(" ","%20");
             List<string> converted = new List<string>();
 
-            try {
-                using(HttpClient client = new HttpClient()) {
+            //try {
+            //    using(HttpClient client = new HttpClient()) {
 
-                    CardDataSkeleton data = new CardDataSkeleton();
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //        CardDataSkeleton data = new CardDataSkeleton();
+            //        client.DefaultRequestHeaders.Accept.Clear();
+            //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
-                    Log(response);
-                    //api response is data:{ 0: {(whatever key/value)}};
-                    JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
-                    var dataArray = unformatted.RootElement.GetProperty("data");
-                    var restringified = JsonSerializer.Serialize(dataArray[0]);
+            //        string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
+            //        Log(response);
+            //        //api response is data:{ 0: {(whatever key/value)}};
+            //        JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
+            //        var dataArray = unformatted.RootElement.GetProperty("data");
+            //        var restringified = JsonSerializer.Serialize(dataArray[0]);
 
-                    CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
-                    data = newCard;
-                    data.copies = copies;
-                    converted = StringUtils.ConvertCardDataSkeletonToList(data);
-                }
-            } catch (Exception e) {
-                Console.WriteLine("An error occurred");
-                Console.WriteLine(e);
-                AddCardDialog(connectionString);
-            }
+            //        CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
+            //        data = newCard;
+            //        data.copies = copies;
+            //        converted = StringUtils.ConvertCardDataSkeletonToList(data);
+            //    }
+            //} catch (Exception e) {
+            //    Console.WriteLine("An error occurred");
+            //    Console.WriteLine(e);
+            //    AddCardDialog(connectionString);
+            //}
 
-            string report = "Added new card:";
-                for(int i = 0; i < converted.Count; i++) {
-                    report += $"{converted[i]}|";
-                }
-            Log(report);
-            SqlOperations.InsertCard(connectionString, converted);                               
+            //string report = "Added new card:";
+            //    for(int i = 0; i < converted.Count; i++) {
+            //        report += $"{converted[i]}|";
+            //    }
+            //Log(report);
+            //SqlOperations.InsertCard(connectionString, converted);                               
         }
 
          public static void FindCardDialog(string connectionString) {
