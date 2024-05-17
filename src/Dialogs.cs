@@ -10,15 +10,27 @@ namespace Dialogs {
 
     class Menu {
 
+        public struct CardForm {
+            public CardForm(string name, int copies) {
+                Name = name;
+                Copies = copies;
+                Added = false;
+            }
+
+            public string Name {get;set;}
+            public int Copies {get;set;}
+            public bool Added {get;set;}
+        }
+
         async public static void AddCardDialog(string connectionString) {
 
             List<string> message = new List<string>() {"", "Please enter the name of the card you would like to add", ""};
-            List<string> cardNameList = new List<string>();
-            List<int> cardCopyList = new List<int>();
+            List<List<string>> cards = new List<List<string>>();
             bool next = false;
 
             while (next == false) {
 
+                List<string> cardForm = new List<string>();
                 message[1] = "Please enter the name of the card you would like to add";
                 message[2] = "";
                 Console.Clear();
@@ -73,12 +85,13 @@ namespace Dialogs {
                 message[1] = "Press Tab to add another card or Enter to continue";
                 message[2] = "";
                 
-                card = card.Replace(" ","%20");
-                cardNameList.Add(card);
-                cardCopyList.Add(copies);
-
+                //card = card.Replace(" ","%20");
+                cardForm.Add(card);
+                cardForm.Add(copies.ToString());
+                cards.Add(cardForm);
                 Console.Clear();
                 Textbox.Print(Screen.Center(Textbox.Generate(message, 100, 6, 1)));
+                Textbox.Print(Screen.Center(Textbox.GenerateTable(cards, 100, 25, 1)));
                 switch(Console.ReadKey().Key) {
                     case System.ConsoleKey.Tab:
                         break;
@@ -86,41 +99,54 @@ namespace Dialogs {
                         next = true;
                         break;
                 }
+
+
+
             }
+
             List<string> converted = new List<string>();
 
-            //try {
-            //    using(HttpClient client = new HttpClient()) {
+            for(int i = 0; i < cards.Count; i++) {
+                try {
+                    using(HttpClient client = new HttpClient()) {
+                        Log($"Attempting to add {cards[i][0]}, {cards[i][1]} copies");
 
-            //        CardDataSkeleton data = new CardDataSkeleton();
-            //        client.DefaultRequestHeaders.Accept.Clear();
-            //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        CardDataSkeleton data = new CardDataSkeleton();
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            //        string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={card}");
-            //        Log(response);
-            //        //api response is data:{ 0: {(whatever key/value)}};
-            //        JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
-            //        var dataArray = unformatted.RootElement.GetProperty("data");
-            //        var restringified = JsonSerializer.Serialize(dataArray[0]);
+                        string response = await client.GetStringAsync($"https://db.ygoprodeck.com/api/v7/cardinfo.php?name={cards[i][0]}");
+                        Log($"Retrieved: {response}");
+                        //api response is data:{ 0: {(whatever key/value)}};
+                        JsonDocument unformatted = JsonSerializer.Deserialize<JsonDocument>(response);
+                        var dataArray = unformatted.RootElement.GetProperty("data");
+                        var restringified = JsonSerializer.Serialize(dataArray[0]);
 
-            //        CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
-            //        data = newCard;
-            //        data.copies = copies;
-            //        converted = StringUtils.ConvertCardDataSkeletonToList(data);
-            //    }
-            //} catch (Exception e) {
-            //    Console.WriteLine("An error occurred");
-            //    Console.WriteLine(e);
-            //    AddCardDialog(connectionString);
-            //}
+                        CardDataSkeleton newCard = JsonSerializer.Deserialize<CardDataSkeleton>(restringified);
+                        data = newCard;
+                        data.copies = Convert.ToInt32(cards[i][1]);
+                        converted = StringUtils.ConvertCardDataSkeletonToList(data);
 
-            //string report = "Added new card:";
-            //    for(int i = 0; i < converted.Count; i++) {
-            //        report += $"{converted[i]}|";
-            //    }
-            //Log(report);
-            //SqlOperations.InsertCard(connectionString, converted);                               
+                        string report = "Adding new card:";
+
+                        for(int j = 0; j < converted.Count; j++) {
+                            report += $"{converted[j]}|";
+                            }
+                            Log(report);
+                            SqlOperations.InsertCard(connectionString, converted); 
+
+                        }
+                    } catch (Exception e) {
+                        Console.WriteLine("An error occurred");
+                        Log($"{e}");
+                    }
+
+                    converted.Clear();
+
+            }
+
         }
+            
 
          public static void FindCardDialog(string connectionString) {
             List<string> message = new List<string>() {"", "What card are you looking for?", ""};

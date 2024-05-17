@@ -43,7 +43,7 @@ namespace Utils {
                 connection.Open();
                 var command = connection.CreateCommand();
 
-                command.CommandText = $"SELECT name FROM cards WHERE name = '{input}';";
+                command.CommandText = $"SELECT name FROM cards WHERE name = \"{input}\";";
                 using (var commandReader = command.ExecuteReader()) {
                     while (commandReader.Read()) {
                         string test = commandReader.GetString(0);
@@ -91,6 +91,10 @@ namespace Utils {
         }
 
         public static void InsertCard(string connectionString,List<string> input) {
+            for(int i = 0; i < input.Count; i++) {
+                input[i] = input[i].Replace("'","''");
+            }
+
 
             using(var connection = new SqliteConnection(connectionString)) {
             
