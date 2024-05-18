@@ -1,8 +1,11 @@
 using static Utils.LogUtils;
 using Dialogs;
 using Microsoft.Data.Sqlite;
+using System.Text.Json;
+using DeserializeClasses;
 
 namespace Utils {
+
     class SqlOperations {
 
         public static void DatabaseCheck(string connectionString) {
@@ -197,6 +200,14 @@ namespace Utils {
     class LogUtils {
 
         public static void Log(string input) {
+
+            using (StreamReader reader = new StreamReader($"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.config/cbt/settings.json")) {
+                    Settings current = System.Text.Json.JsonSerializer.Deserialize<Settings>(reader.ReadToEnd());
+                    if(current.WriteLogs == false) {
+                        return;
+                    }
+            }
+        
             using (StreamWriter writer = File.AppendText($"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.config/cbt/logs/logs.txt")) {
                 writer.WriteLine($"{DateTime.Now}: {input}");
             }

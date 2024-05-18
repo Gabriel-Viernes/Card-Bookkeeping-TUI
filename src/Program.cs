@@ -2,6 +2,8 @@
 using static Utils.LogUtils;
 using Dialogs;
 using Formatting;
+using DeserializeClasses;
+using System.Text.Json;
 
 class Entry {
     static void Main(string[] args) {
@@ -11,14 +13,34 @@ class Entry {
         bool doILog = true;
         string currentDb = "yugioh.db";
         string connectionString = $"Data Source={homeFolder}/.config/cbt/db/{currentDb}";
+        Settings currentSettings = new Settings();
 
         try {
             Directory.CreateDirectory($"{homeFolder}/.config/cbt/logs");
-            //Directory.CreateDirectory("./config/");
             Directory.CreateDirectory($"{homeFolder}/.config/cbt/db");
         } catch(Exception e) {
-            Log($"{e}", doILog);
+            Console.WriteLine(e);
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
         }
+
+        if(File.Exists($"{homeFolder}/.config/cbt/settings.json")) {
+            using (StreamReader reader = new StreamReader($"{homeFolder}/.config/cbt/settings.json")) {
+                currentSettings = JsonSerializer.Deserialize<Settings>(reader.ReadToEnd());
+                Log("Settings Initialized");
+            }
+        } else {
+            Settings defalt = new Settings();
+            defalt.WriteLogs = false; defalt.CurrentDb = "yugioh.db"; defalt.ConnectionString = $"{homeFolder}/.config/cbt/db/{defalt.CurrentDb}";
+            string serialized = JsonSerializer.Serialize(defalt);
+            using(File.Create($"{homeFolder}/.config/cbt/settings.json"));
+            using (StreamWriter writer = new StreamWriter($"{homeFolder}/.config/cbt/settings.json")) {
+                writer.Write(JsonSerializer.Serialize(defalt));
+            }
+            currentSettings = defalt;
+        }
+
+
 
 
         SqlOperations.DatabaseCheck(connectionString);
